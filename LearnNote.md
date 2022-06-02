@@ -97,3 +97,14 @@ type-check检查（在使用表达式时进行类型检查），成功->对表�
 * null:'a list->bool
 * hd:'a list->'a
 * tl:'a list->'a list
+8. 利用递归可以实现很多list的操作，例如乘法和求和等等
+
+#### Let Expressions
+在函数内部定义变量
+1. 三问题
+* syntax:let b1,b2...bn in e end(b1,b2...是绑定，就类似val a；e是let表达式的主体)
+* typing checking:检查b的类型然后加入【内部】静态环境中，主体e的结果将是整个let表达式的结果。这些绑定对任何环境都没有影响，除了在这个let表达式中。将允许在检查主体的类型时使用所有这些绑定，然后主体e的类型将是整个let表达式的类型。在let中可以使用此前环境【外环境】中所有的绑定。
+* evaluation：根据let-in之间的绑定值计算整个in-end之间的e的值
+2. let-in-end可以用在任何可以插入表达式的地方
+* 注意，在let中如果有shadow外部值，这个shadow的值是只保留在当前let的内部环境中的。let中的绑定和计算只影响它内部环境中的绑定，并返回整个e的值
+* 此前只能使用在整个程序的顶端绑定的值，在let中又可以拥有let中绑定的值，且只在当前let中使用它。
