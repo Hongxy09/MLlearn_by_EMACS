@@ -1,3 +1,8 @@
+# 安装
+https://www.smlnj.org/dist/working/110.99.2/windows.html
+然后重启vsc
+
+# 调用
 1. -:一级输入，=：二级输入
 2. 引用脚本：` use "hw0.sml";` 记得加分号
 3. 函数的定义与调用
