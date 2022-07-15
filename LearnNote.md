@@ -160,3 +160,21 @@ type-check检查（在使用表达式时进行类型检查），成功->对表�
 因此在函数中应当避免重复调用递归，即将结果存储在变量中
 ![goodmax](image/good_max.png)
 2. 代码高效：避免重复计算的递归，这会造成指数级别的算术成本。使用let表达式可以在函数中定义新的函数，解决递归问题。
+
+#### Options
+option就如同list一样，也是一个类型。建立option的方法类似list。
+1. 定义和调用
+![option](image/option.png)
+这里的SOME就类似建立一个仅有一个元素的列表。
+`val t = SOME 3 : int option`
+`val y = NONE : 'a option`
+isSome类似判断列表是否为空，不过这里的情况是如果option为SOME（非空）就返回true。
+`val it = true : bool`
+valOf如果输入的是NONE会返回异常，否则返回值
+`valOf t;->val it = 3 : int`
+
+2. max_option版本
+![max_op1](image/max_option1.png)
+但是let中，`isSome tl_ans`是一个重复的判断，因为只有在进行到列表的最后的时候，tl返回的才是空列表，此时的tl_ans才会是NONE，即这个判断大多数时候做出的都是SOME，并且在最后一次为NONE的时候会将这个结果层层返回 递归中。即在空列表上会进行递归调用（假设此时递归进行到尾端，此时的max1(tl xs)是max1(NONE),这就导致空的列表还会进行一次递归，这可能会引发异常）
+![max_op2](image/max_option2.png)
+max2只用非空的xs来进行递归调用，避免了空列表递归
