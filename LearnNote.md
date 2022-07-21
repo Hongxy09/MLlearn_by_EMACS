@@ -181,3 +181,12 @@ max2只用非空的xs来进行递归调用，避免了空列表递归
 
 3. option与list差异
 定义类似，判定函数不同，且option仅有NONE或仅包含一个元素的SOME
+
+#### Booleans and Comparison Operations
+1. Booleans Operations`e1 andalso e2`和`e1 orelse e2`和`not e1`
+Type-checking:e1:bool,e2:bool
+Evaluation:与运算，或运算，否运算
+【注意】andalso和orelse只是关键字而不是函数，not是函数，因为在调用函数前就会对函数进行评估。而andalso和orelse并不会，当仅仅输入andalso和orelse时会报错，需要关键词，而输入not，会报告其函数类型
+2. Comparison Operations=六个比较符号`< > >= <= = <>`
+`< > >= <=`可以用于int * int或real * real（real就是float）但是不可以用于int * real
+`= <>`不可以用于real，浮点数总是有微小的不同,<>是反等号（!=）
