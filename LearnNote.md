@@ -162,7 +162,9 @@ type-check检查（在使用表达式时进行类型检查），成功->对表�
 2. 代码高效：避免重复计算的递归，这会造成指数级别的算术成本。使用let表达式可以在函数中定义新的函数，解决递归问题。
 
 #### Options
+
 option就如同list一样，也是一个类型。建立option的方法类似list。
+
 1. 定义和调用
 ![option](image/option.png)
 这里的SOME就类似建立一个仅有一个元素的列表。
@@ -183,10 +185,21 @@ max2只用非空的xs来进行递归调用，避免了空列表递归
 定义类似，判定函数不同，且option仅有NONE或仅包含一个元素的SOME
 
 #### Booleans and Comparison Operations
+
 1. Booleans Operations`e1 andalso e2`和`e1 orelse e2`和`not e1`
 Type-checking:e1:bool,e2:bool
 Evaluation:与运算，或运算，否运算
 【注意】andalso和orelse只是关键字而不是函数，not是函数，因为在调用函数前就会对函数进行评估。而andalso和orelse并不会，当仅仅输入andalso和orelse时会报错，需要关键词，而输入not，会报告其函数类型
 2. Comparison Operations=六个比较符号`< > >= <= = <>`
-`< > >= <=`可以用于int * int或real * real（real就是float）但是不可以用于int * real
+`< > >= <=`可以用于int *int或real* real（real就是float）但是不可以用于int * real
 `= <>`不可以用于real，浮点数总是有微小的不同,<>是反等号（!=）
+
+#### Benefits of No Mutation
+
+关于原地修改：函数式编程的特点是无法原地修改
+![mutation](image/mutation.png)
+
+* 如果y和x指向的同一个pair，那么y称为x的别名aliases
+* y指向另一个pair，不是x的别名
+* 那么对x做出修改后，y是别名还是copy决定了y是否有变化
+在ML中，没有mutation，因此同变量都是别名，不是复制值只是返回了值的别名。在有突变的语言中分辨别名和copy是很难的，ML避免了这一点（不会因为改变了其中一个别名的值导致所有的别名都变化，因为不能mutation）。
