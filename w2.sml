@@ -10,12 +10,18 @@ fun is_older(x:(int * int * int),y:(int * int * int))=
     then min(#2x,#2y)
     else min(#3x,#3y)
 
+fun datas_in_num(x:(int * int * int),y:int)=
+    if #2 x = y
+    then true
+    else false 
+
+
 fun number_in_month(ls:(int * int * int) list,m_num:int)=
     if null ls
     then 0
     else 
         let val num = number_in_month(tl ls,m_num)
-        in if m_num = #2(hd ls)
+        in if datas_in_num(hd ls,m_num)
             then num+1
             else num
         end
@@ -27,3 +33,34 @@ fun number_in_months(ls:(int * int * int) list,m_ls:int list)=
         let val num = number_in_months(ls,tl m_ls)
         in num+number_in_month(ls,hd m_ls)
         end;
+
+fun dates_in_month(ls:(int * int * int) list,m_num:int)=
+    if null ls
+    then []
+    else 
+        let val data_ls = dates_in_month(tl ls,m_num)
+        in if datas_in_num(hd ls,m_num)
+            then hd ls :: data_ls
+            else data_ls
+        end;
+
+fun add_list(ls1:(int * int * int) list,ls2:(int * int * int) list)=
+    if null ls1 orelse null ls2
+    then if null ls1
+         then ls2
+         else ls1
+    else
+        hd ls1 :: add_list(tl ls1,ls2)
+
+fun dates_in_months(ls:(int * int * int) list,m_ls:int list)=
+    if null ls orelse null m_ls
+    then []
+    else
+        let val data_ls = dates_in_months(ls,tl m_ls)
+        in add_list(dates_in_month(ls,hd m_ls),data_ls)
+        end;
+
+fun get_nth(str_ls:string list,idx:int)=
+    if idx=1
+    then hd(str_ls)
+    else get_nth(tl str_ls,idx-1)
