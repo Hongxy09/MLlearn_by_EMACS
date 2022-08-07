@@ -69,3 +69,25 @@ fun date_to_string(data:int * int * int)=
     let val str_ls = ["Jan","Feb","Mar","Apr","May","June","Jul","Aug","Sept","Oct","Nov","Dec"]
     in get_nth(str_ls,#2 data)^" "^Int.toString(#3 data)^", "^Int.toString(#1 data)
     end
+
+fun number_before_reaching_sum(sum:int,num_ls:int list)=
+    if sum < hd num_ls orelse sum = hd num_ls
+    then 0
+    else let val idx = 1
+         in if sum < hd num_ls
+            then idx
+            else idx+number_before_reaching_sum(sum-hd num_ls,tl num_ls)
+         end
+
+fun sum_list(ls:int list,idx:int)=
+    if null ls orelse idx = 0
+    then 0
+    else let val temp = sum_list(tl ls,idx-1)
+         in hd ls+temp
+         end
+
+fun what_month(x:int)=
+    let val num_ls = [31,30,31,30,31,30,31,31,30,31,30,31]
+    in number_before_reaching_sum(x,num_ls)+1
+    end
+
