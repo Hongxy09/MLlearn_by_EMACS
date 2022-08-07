@@ -1,7 +1,7 @@
 fun min (x,y) = 
     if x<y
     then true
-    else false;
+    else false
 
 fun is_older(x:(int * int * int),y:(int * int * int))=
     if #1x < #1y orelse #1x > #1y
@@ -32,7 +32,7 @@ fun number_in_months(ls:(int * int * int) list,m_ls:int list)=
     else
         let val num = number_in_months(ls,tl m_ls)
         in num+number_in_month(ls,hd m_ls)
-        end;
+        end
 
 fun dates_in_month(ls:(int * int * int) list,m_num:int)=
     if null ls
@@ -58,9 +58,14 @@ fun dates_in_months(ls:(int * int * int) list,m_ls:int list)=
     else
         let val data_ls = dates_in_months(ls,tl m_ls)
         in add_list(dates_in_month(ls,hd m_ls),data_ls)
-        end;
+        end
 
 fun get_nth(str_ls:string list,idx:int)=
     if idx=1
     then hd(str_ls)
     else get_nth(tl str_ls,idx-1)
+
+fun date_to_string(data:int * int * int)=
+    let val str_ls = ["Jan","Feb","Mar","Apr","May","June","Jul","Aug","Sept","Oct","Nov","Dec"]
+    in get_nth(str_ls,#2 data)^" "^Int.toString(#3 data)^", "^Int.toString(#1 data)
+    end
