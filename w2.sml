@@ -66,7 +66,7 @@ fun get_nth(str_ls:string list,idx:int)=
     else get_nth(tl str_ls,idx-1)
 
 fun date_to_string(data:int * int * int)=
-    let val str_ls = ["Jan","Feb","Mar","Apr","May","June","Jul","Aug","Sept","Oct","Nov","Dec"]
+    let val str_ls = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     in get_nth(str_ls,#2 data)^" "^Int.toString(#3 data)^", "^Int.toString(#1 data)
     end
 
@@ -79,15 +79,27 @@ fun number_before_reaching_sum(sum:int,num_ls:int list)=
             else idx+number_before_reaching_sum(sum-hd num_ls,tl num_ls)
          end
 
-fun sum_list(ls:int list,idx:int)=
-    if null ls orelse idx = 0
-    then 0
-    else let val temp = sum_list(tl ls,idx-1)
-         in hd ls+temp
-         end
-
 fun what_month(x:int)=
-    let val num_ls = [31,30,31,30,31,30,31,31,30,31,30,31]
+    let val num_ls = [31,28,31,30,31,30,31,31,30,31,30,31]
     in number_before_reaching_sum(x,num_ls)+1
     end
+
+fun month_range(x:int,y:int)=
+    if x > y
+    then []
+    else let val ls = month_range(x+1,y)
+         in what_month(x)::ls
+         end
+
+fun oldest(ls:(int * int * int) list)=
+    if null ls
+    then NONE
+    else let val tl_old = oldest(tl ls)
+         in if not(isSome(tl_old))
+            then SOME(hd ls)
+            else if is_older(hd ls,valOf(tl_old)) orelse (hd ls) = valOf(tl_old)
+                 then SOME (hd ls)
+                 else tl_old
+         end
+
 
