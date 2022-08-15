@@ -220,3 +220,7 @@ Evaluation:与运算，或运算，否运算
 5. Tool：语言的工具，而非语言的一部分，例如REPL，debug
 
 Focus on semantics and idioms.
+
+## W3
+
+### Building Compound Types
