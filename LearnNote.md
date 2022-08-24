@@ -224,3 +224,37 @@ Focus on semantics and idioms.
 ## W3
 
 ### Building Compound Types
+
+1. Base type and Compound type
+   * base:int,bool...
+   * compound:build new types with other types inside of them=list,tuple...
+2. Build Compound fun
+   * each of(包含t1,t2,t3，比如物体的位置(int\*int\*int)),one of(包含t1,t2,t3的某个值，例如某个饼干的味道，某一天的天气),self reference(递归调用)
+   * each of:tuple(int*bool)包含“所有”的值
+   * one of:option(要么SOME要么NONE)
+   * list：三者都有，list可以是包含int和一个int list(这是自我调用的全包含)，也可以什么都没有(这是仅包含其一)
+   * 一个例子：((int \* int) option \* (int list list)) option,其中(int list list)can be described in terms of each of, one of and self reference.
+
+### Records——build each of type(another one called tuple)
+
+1. field name:该类型中包含的field的名字，field则对应某个表达值，定义时无需声明field类型，会自动根据表达式计算
+2. record的输出会计算每个表达式的结果并返回一个按字母排序后的record，且整个record的类型由{}包裹并显示每个field的类型
+3. exp:`val X = {idx=1,name="adam"};`，输出`val X = {idx=1,name="adam"} : {idx:int, name:string}`
+4. 调用：`#idx X`
+5. 与tuple的区别：tuple短且由定位，record便于分辨和记忆。但在有的编程语言中会混用，比如调用者caller用position调用而被调用者用name调用
+   * Tuple as syntactic sugar
+   * tuple是record的另一种表达形式，当filed name是连续的int时，record表现为tuple(Tuple's just another way of writing the record with field names one up to n)
+   * exp:`val x = {1=1,2="aaa",3=true};`->`val x = (1,"aaa",true) : int * string * bool`
+
+### Datatype Bindings
+
+val binding,fun binding,data type binding
+
+1. datatype绑定的每一个类型相当于一个函数，会将对应的类型转为datatype指定的类型名字
+2. 在下列例子中，`val a = Str "hi"`代表着a具有mytype的Str种类（即“tag”，表示构造a的constructors种类），其str值为"hi"（对应的值）,整个a的值是：应用于"hi"的mytype中的Str构造函数的返回值，这种包含构造函数的表现形式也成为"tagged unions"-标记联合
+![datatype](image/datatype1.png)
+3. 构造mytype中的kind时就是made from one of the constructors
+4. Pizza->value，`val a = Pizza : mytype`就类似于`val b = [] : 'a list`都是一个值，不过这个值代表着空值。
+5. 关于类型的访问
+   * 需要两个方面来访问数据：check variant=检查数据的tag，即其construct；extract data=提取数据的值
+   * 例如：check variant->null/isSome；extract data=hd/tl/valOf
