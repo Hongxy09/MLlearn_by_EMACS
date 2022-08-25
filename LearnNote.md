@@ -253,8 +253,42 @@ val binding,fun binding,data type binding
 1. datatype绑定的每一个类型相当于一个函数，会将对应的类型转为datatype指定的类型名字
 2. 在下列例子中，`val a = Str "hi"`代表着a具有mytype的Str种类（即“tag”，表示构造a的constructors种类），其str值为"hi"（对应的值）,整个a的值是：应用于"hi"的mytype中的Str构造函数的返回值，这种包含构造函数的表现形式也成为"tagged unions"-标记联合
 ![datatype](image/datatype1.png)
-3. 构造mytype中的kind时就是made from one of the constructors
+3. 构造mytype中的kind时就是made from one of the constructors,其实就是一个小的构造函数
 4. Pizza->value，`val a = Pizza : mytype`就类似于`val b = [] : 'a list`都是一个值，不过这个值代表着空值。
 5. 关于类型的访问
    * 需要两个方面来访问数据：check variant=检查数据的tag，即其construct；extract data=提取数据的值
    * 例如：check variant->null/isSome；extract data=hd/tl/valOf
+
+### Case Expressions
+
+使用 case 表达式来访问数据类型的各个部分`case x of...`对case的每种不同情况（即mytype中的不同类型）之间用"|"分隔，如果mytype的构造函数具有返回值，需要指定该值的绑定变量名，例如`Str S`就是保存了x是一个str情况下的string值
+![case](image/case.png)
+
+1. case of
+   * 匹配的是箭头左边的pattern，检查哪个分支匹配，这个匹配是从一个构造函数建造的
+   * 每个分支都相当于一个小的let，let的val就是这些构造函数名字后面的变量名，比如let TwoInt传入的第一个int作为i1，let s为Str的传入值（这里的str相当于str（"hi"），str就是一个构造函数，"hi"是传入的值，也是用s指代的值）
+   * case of的数据类型就是每个分支的数据类型
+
+2. 匹配的过程pattern match
+   * 首先，找到匹配的分支并适当地绑定变量
+   * 然后在该分支环境中，评估右侧的表达式
+   * 分支中绑定的变量使用`Str s => String.size s`或`i1+i2`
+
+3. case of的一般表达式
+
+   ```sml
+   case e0 of
+        p1 ==> e1
+        p2 ==> e2
+        ...
+        pn ==> en
+   ```
+
+   * pattern是一个类型，TwoInts(i1,i2)看上去很像一个表达式，但是不是，pattern包括的是constructor名及其变量
+   * pattern不会进行评估evaluate，只会在e0匹配了某个pattern后计算其右边的e
+
+4. case of需要注意的
+   * case of的分支不可重复，即不能出现两个Str分支（match redundant）
+   * case of的分支也不可缺少，不然在调用没有定义分支的pattern时会报错match non exhaustive
+   * 不可错分支取值，即在Str分支下试图取TwoInt的int值
+   * 非常优雅，比用函数检查类型构造优雅得多
