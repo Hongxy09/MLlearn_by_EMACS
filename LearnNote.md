@@ -258,6 +258,8 @@ val binding,fun binding,data type binding
 5. 关于类型的访问
    * 需要两个方面来访问数据:check variant=检查数据的tag,即其construct;extract data=提取数据的值
    * 例如:check variant->null/isSome;extract data=hd/tl/valOf
+6. 关于datatype的辨析
+   * datatype的值包含其构造函数及其值
 
 ### Case Expressions
 
@@ -299,7 +301,7 @@ val binding,fun binding,data type binding
 
    * 例如在辨识学生成绩时，要么取得学生的ID，要么取得学生的名字。如果选择将学生的成绩，姓，名字和中间名都列入record将是一个糟糕的方式，这是一个each of type，但是我们并不是需要使用全部的值，而只是需要一部分，即one of type。当需要所有的数据，即学生名字和学号时，each of type是一个合理的方式
 
-2. 递归的datatype
+2. 递归的datatype(注意datatype中construct的名字不代表函数，那只是一个类别的名字。真正的构造函数在调用这个类型的case里面的箭头处)
    * exp的一个例子，相当于一个set tree
 
    ```sml
@@ -322,6 +324,28 @@ val binding,fun binding,data type binding
       | Add(e1,e2)      => 1 + number_of_adds e1 + number_of_adds e2
       | Multiply(e1,e2) => number_of_adds e1 + number_of_adds e2
 
+   fun max_constant e =
+      let fun max_of_two (e1,e2) =
+         let val m1 = max_constant e1
+             val m2 = max_constant e2
+         in 
+            if m1 > m2 then m1 else m2 
+         end
+      in
+         case e of
+         Constant i      => i
+         | Negate e2       => max_constant e2
+         | Add(e1,e2)      => max_of_two(e1,e2)
+         | Multiply(e1,e2) => max_of_two(e1,e2)
+      end
+
+   fun max_constant2 e =
+      case e of
+      Constant i      => i
+      | Negate e2       => max_constant2 e2
+      | Add(e1,e2)      => Int.max(max_constant2 e1, max_constant2 e2)
+      | Multiply(e1,e2) => Int.max(max_constant2 e1, max_constant2 e2)
+
    val example_exp = Add (Constant 19, Negate (Constant 4))
 
    val example_ans = eval example_exp
@@ -331,3 +355,14 @@ val binding,fun binding,data type binding
 
    * number_of_adds不计算值，是计算在运算中发生多少次加法。
    * 数据类型对于表示许多不同类型的数据很有用。特别是，这些有趣的树状结构，我们可以在上面编写递归函数，以产生答案。
+   * 关于`Negate e2       => number_of_adds e2`中e2的作用，是用来存储传入的值，以便pattern对应的表达式进行调用
+   * 如果模式匹配的构造函数不包括数据，就类似匹配到一个空的datatype中的construct，因此，在这种情况下，如果它匹配，则没有什么新东西可以添加到环境中，但仍然会转到相应的分支执行评估该表达式，
+   * max_constant2是为了避免在let中反复计算递归值，而是将递归放置尾部
+
+### Another Expression Example
+
+利用之前定义的datatype-exp构造一个函数max_contant(exp->int)
+
+```sml
+   
+```
