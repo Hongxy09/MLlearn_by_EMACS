@@ -356,13 +356,30 @@ val binding,fun binding,data type binding
    * number_of_adds不计算值，是计算在运算中发生多少次加法。
    * 数据类型对于表示许多不同类型的数据很有用。特别是，这些有趣的树状结构，我们可以在上面编写递归函数，以产生答案。
    * 关于`Negate e2       => number_of_adds e2`中e2的作用，是用来存储传入的值，以便pattern对应的表达式进行调用
-   * 如果模式匹配的构造函数不包括数据，就类似匹配到一个空的datatype中的construct，因此，在这种情况下，如果它匹配，则没有什么新东西可以添加到环境中，但仍然会转到相应的分支执行评估该表达式，
+   * 如果模式匹配的构造函数不包括数据，就类似匹配到一个空的datatype中的construct，因此，在这种情况下，如果它匹配，则没有什么新东西可以添加到环境中，但仍然会转到相应的分支执行评估该表达式
    * max_constant2是为了避免在let中反复计算递归值，而是将递归放置尾部
 
-### Another Expression Example
+### Type Synonyms
 
-利用之前定义的datatype-exp构造一个函数max_contant(exp->int)
+`type anme = t`Type只是为已经存在的相同类型创建另一个名称，一般不用type去定义数据类型，而是用type对数据类型或者已有的数据类型的组合进行重命名，然后在任何用到这个类型的地方使用type的名字，type的名字和type指向的类型t是可以互换的
 
 ```sml
-   
+datatype suit = Club | Diamond | Heart | Spade
+
+datatype rank = Jack | Queen | King | Ace | Num of int
+
+type card = suit * rank
+
+type name_record = { student_num : int option, 
+                     first       : string, 
+                     middle      : string option, 
+                     last        : string }
+
+fun is_Queen_of_Spades (c : card) = 
+    #1 c = Spade andalso #2 c = Queen
+
+val c1 : card = (Diamond,Ace)
+val c2 : suit * rank = (Heart,Ace)
+val c3 = (Spade,Ace)
+<!-- 这三种定义方式都是合理的，其类型都是card，在输出的时候可能显示的不同，即card或者suit * rank，但是本质是一样的 -->
 ```
