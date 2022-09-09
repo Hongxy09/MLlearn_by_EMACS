@@ -260,7 +260,27 @@ val binding,fun binding,data type binding
    * 例如:check variant->null/isSome;extract data=hd/tl/valOf
 6. 关于datatype的辨析
    * datatype的值包含其构造函数及其值
+7. list和option也是datatype，NONE/SOME也可以作为case中的pattern，[]和::也可以作为case中的pattern.利用这个可以构建option和list相关的函数
 
+```sml
+
+fun inc_or_zero intoption =
+    case intoption of
+      NONE => 0
+      | SOME i => i+1
+
+fun sum_list xs =
+    case xs of
+      [] => 0
+      | x::xs' => x + sum_list xs'
+
+fun append (xs,ys) =
+    case xs of
+      [] => ys
+      | x::xs' => x :: append(xs',ys)
+<!-- append的分支顺序可以交换，因为case不是顺序执行而是择一执行 -->
+```
+case表达式可以有效避免list为空或者option为空产生的错误，应当多用case而非isSome...
 ### Case Expressions
 
 使用 case 表达式来访问数据类型的各个部分`case x of...`对case的每种不同情况(即mytype中的不同类型)之间用"|"分隔,如果mytype的构造函数具有返回值,需要指定该值的绑定变量名,例如`Str S`就是保存了x是一个str情况下的string值
