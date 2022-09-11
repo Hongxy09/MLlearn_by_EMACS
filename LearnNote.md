@@ -280,7 +280,9 @@ fun append (xs,ys) =
       | x::xs' => x :: append(xs',ys)
 <!-- append的分支顺序可以交换，因为case不是顺序执行而是择一执行 -->
 ```
+
 case表达式可以有效避免list为空或者option为空产生的错误，应当多用case而非isSome...
+
 ### Case Expressions
 
 使用 case 表达式来访问数据类型的各个部分`case x of...`对case的每种不同情况(即mytype中的不同类型)之间用"|"分隔,如果mytype的构造函数具有返回值,需要指定该值的绑定变量名,例如`Str S`就是保存了x是一个str情况下的string值
@@ -402,4 +404,49 @@ val c1 : card = (Diamond,Ace)
 val c2 : suit * rank = (Heart,Ace)
 val c3 = (Spade,Ace)
 <!-- 这三种定义方式都是合理的，其类型都是card，在输出的时候可能显示的不同，即card或者suit * rank，但是本质是一样的 -->
+```
+
+### Polymorphic Datatypes
+
+1. list和option其实并不是一个type，int list才是，因此list是一个Polymorphic的type constructor，根据不同的数据类型有不同的list。**它们是采用类型参数来生成类型的东西**
+   * NONE is not a valid type because it is actually a value of type \verb#'a option#’a option.
+   * int \* int list是对的，list \* list不行，要有具体的list类型
+2. 函数可能是多态的也可能不是，例如sum是一个int list->int的函数，但是append函数则取决于其输入list的类型
+
+```sml
+datatype 'a option = NONE | SOME of 'a
+
+(* similarly, here are polymorphic lists but without special syntax *)
+
+datatype 'a mylist = Empty | Cons of 'a * 'a mylist
+
+(* a fancier example for binary trees where internal nodes have data of
+   any one type and leaves have data of another possibly-different type *)
+
+datatype ('a,'b) tree = Node of 'a * ('a,'b) tree * ('a,'b) tree
+                        | Leaf of 'b
+
+(* type is (int,int) tree -> int *)
+fun sum_tree tr =
+   case tr of
+      Leaf i => i
+      | Node(i,lft,rgt) => i + sum_tree lft + sum_tree rgt
+
+(* type is ('a,int) tree -> int 多态*)
+fun sum_leaves tr =
+    case tr of
+      Leaf i => i
+      | Node(i,lft,rgt) => sum_leaves lft + sum_leaves rgt
+
+(* type is ('a,'b) tree -> int  多态*)
+fun num_leaves tr =
+    case tr of
+      Leaf i => 1
+      | Node(i,lft,rgt) => num_leaves lft + num_leaves rgt
+
+datatype ('a,'b) flower =
+      Node of ('a,'b) flower * ('a,'b) flower
+      | Leaf of 'a
+      | Petal of 'b
+(* 这是一棵二叉树，内部节点不保存数据，因为 Node 只包含flower，本身没有数据，并且有两种不同类型的叶子（叶子和花瓣），每个叶子都保存不同类型的数据。*)
 ```
