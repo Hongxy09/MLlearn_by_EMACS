@@ -450,3 +450,5 @@ datatype ('a,'b) flower =
       | Petal of 'b
 (* 这是一棵二叉树，内部节点不保存数据，因为 Node 只包含flower，本身没有数据，并且有两种不同类型的叶子（叶子和花瓣），每个叶子都保存不同类型的数据。*)
 ```
+
+### Each of Pattern Matching / Truth About Functions
