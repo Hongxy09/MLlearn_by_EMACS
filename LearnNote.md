@@ -452,3 +452,19 @@ datatype ('a,'b) flower =
 ```
 
 ### Each of Pattern Matching / Truth About Functions
+
+1. 之前运用Pattern Matching都是针对one of type的，但是Pattern Matching同样也可以运用于each of type。即在之前的case of中的pattern都是一个单个的pattern，所有用了pattern的地方其实都是可以用tuple pattern
+![pattern](image/each_of_pattern.png)
+   * 在之前的case of中一般是一个pattern(也就是datatype的每个pattern就是x)都对应的case of的箭头后面的一个值；现在的新的Pattern Matching也可以用在each of上，每个pattern都有自己的filed name，每个filed name又对应着pattern的值。
+   * 例如在原来的pattern上用tuple/record pattern代替![pattern](image/pattern_tuple.png)
+   * 上述例子中，case of的pattern中的值在case of右边都是可以调用的
+2. `val variable=expression`的真相是`val pattern=expression`，variable是一个特殊的pattern，它匹配(matching)的是expression的整个结果。但是，如果在variable的位置放置不同的pattern，那么它也将与表达式e匹配，并提取各种片段。
+   * expression是datatype的构造函数之一时不适用，因为val就像是一个单臂的case of，对于each-of-type这种单臂表达式是合适的因为我们只需要一个分支，但是对于datatype我们需要其所有分支
+   * 例如`val NONE = SOME 2;`这里的SOME 2就是option(one of)的pattern SOME构造的表达式，option也是一个datatype，所以我的推测是会报错(It won't compile because of a type error.)
+   * 实际上：Bind exception will be raised，但是NONE和SOME 2不匹配，但没有其他模式可供尝试。因此，发生非详尽的绑定失败。
+   * 用let in代替单臂case![let](image/pattern_tuple_no_one_arm_case.png)这里用letin代替单臂case，这里的val意味着把triple表达式的值绑定到(x,y,z)这个tuple pattern上，这个时候x,y,z会绑定动态环境中triple的三个对应的部分的值。在full_name函数中，val的pattern是一个record pattern，其右侧的表达式r必须是一个record，且其对应的filed name是val表达式左侧pattern中的filed name，且所有的filed都是string
+
+3. `fun f v = 'body'->expression`的真相是`fun f p = e`
+   * 下列的例子就是用于提取tuple和record的模式匹配
+   * 如果fun的输入是一个variable，它将与函数的整个参数进行匹配，但如果它是一个p，将继续提取参数的各个部分。![let](image/fun.png)在fun sum_triple中，(x,y,z)会匹配输入的pattern，并将对应的值绑定到x,y,z上；同样的full name函数的输入要和这里的pattern完全匹配才是合法的。
+   * 但是这里的sum_triple看上去是一个有三个int输入的函数，而不是有一个triple(pattern)输入的函数——事实上，所有的fun都只接受一个输入pattern，而非我们所看见的多个或者一个参数(只是接受一个参数是元组的函数,这些函数是通过在该元组上使用模式匹配来实现的，也就是用模式匹配获得元组的不同部分，以便可以获得该元组的不同的部分的值。)
