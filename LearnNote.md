@@ -468,3 +468,23 @@ datatype ('a,'b) flower =
    * 下列的例子就是用于提取tuple和record的模式匹配
    * 如果fun的输入是一个variable，它将与函数的整个参数进行匹配，但如果它是一个p，将继续提取参数的各个部分。![let](image/fun.png)在fun sum_triple中，(x,y,z)会匹配输入的pattern，并将对应的值绑定到x,y,z上；同样的full name函数的输入要和这里的pattern完全匹配才是合法的。
    * 但是这里的sum_triple看上去是一个有三个int输入的函数，而不是有一个triple(pattern)输入的函数——事实上，所有的fun都只接受一个输入pattern，而非我们所看见的多个或者一个参数(只是接受一个参数是元组的函数,这些函数是通过在该元组上使用模式匹配来实现的，也就是用模式匹配获得元组的不同部分，以便可以获得该元组的不同的部分的值。)
+
+### A Little Type Inference
+
+是hw2的一个预先知识
+
+* 在hw2中不应当使用#，这样就不需要为\#做类型的声明，使用模式匹配来获取元组或record的各个部分，类型检查器总是可以弄清楚函数参数的类型应该是什么。因为在定义定义函数的时候他就会根据fun的body部分确定每个输入的参数的类型。
+* 如果在函数体中用了\#并且在定义函数的时候没有指明输入的数据的格式(比如int\*int\*int)则类型检查不确定输入是否还会有\#4、\#5，类型检查其会无法确认输入的宽度，因此报错。
+* 但是ML也不是完全无法判断输入的类型，如果函数主体中对输入进行了运算(比如乘法加法)那函数会自己判断输入必然是一个int
+* 在不使用\#的函数中，如果没有使用所有的输入，那么未被使用的输入的类型就可以是任何类型，因为不管是什么类型这个函数都是可以正常工作的
+
+```SML
+(* these functions are polymorphic: type of y can be anything *)
+
+(* int*a'*int->int *)
+fun partial_sum (x, y, z) = 
+    x + z
+    
+fun partial_name {first=x, middle=y, last=z} =
+    x ^ " " ^ z
+```
