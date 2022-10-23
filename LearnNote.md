@@ -488,3 +488,41 @@ fun partial_sum (x, y, z) =
 fun partial_name {first=x, middle=y, last=z} =
     x ^ " " ^ z
 ```
+
+TODO:
+
+### Polymorphic and Equality Types
+
+1. 关于多态型的通用性
+   * `'a list * 'a list -> 'a list`这种多态类型的‘a可以同时被替换为任何类型，通用性大于t1(eg. `t1:int list * int list -> int list`)但是通用性不如`t2:int list * string list -> int list`因为'a需要统一的替换
+2. t1与t2的general比较：t1('a被替换为同一类型)>t2('a被替换为某一类型，'b被替换为相同或不同的类型)
+3. 类型通用性的比较:尽量定义比自己需要的类型更加通用的类型
+
+   ```SML
+      type foo = int*int
+      <!-- record 1 通用性r1>r2=r3-->
+      {quux:'b, bar:int*'a, baz:'b}
+      <!-- record 2 r2的每个'a和'b都必须被一致地替换例如'a->int,'b->string-->
+      {quux:string, bar:foo, baz:string}
+      <!-- record 3 -->
+      {bar:int*int, quux:string, baz:string}
+
+   ```
+
+   * 另一种比较`’a * ’b -> int`vs`’a * ’a -> ’a`：无法比较。因为并没有对前者的'a做一致性替换。
+     * 如果希望前者更加通用，则需要对前者进行一致性替换来获得后者，但是int的类型无法改变(int的通用型弱于‘a)
+     * 如果希望后者更通用，则要对后者进行一致性替换获得前者，即将所有的'a替换为同一类型，这是不可能的。所以无法比较。
+   * 通用性：如果能将t1中的类型进行一致性替换后变为t2，则t1>t2
+
+4. Equality Types->`''a list * 'a -> bool`这里的`''a`和`'a`并不一样，`''a`只能被替换为可以用等号操作的type
+   * Equality Types：int,string,tuple...
+   * No Equality Types:fun type,real(浮点数)...
+   * 实例：x,y等式操作则类型必须是Equality Types，而x=3限制了x必须是int，因为等式要求比较的两个事物类型相同
+
+   ```SML
+   (* has type ''a * ''a -> string *)
+   fun same_thing(x,y) = if x=y then "yes" else "no" 
+
+   (* has type int -> string *)
+   fun is_three x = if x=3 then "yes" else "no" 
+   ```
