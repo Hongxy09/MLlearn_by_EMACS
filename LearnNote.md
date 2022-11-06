@@ -576,7 +576,7 @@ TODO:
         | _     => N (* many say bad style; I am okay with it *)
       end
 
-   (* 谨慎使用*)
+   (* 谨慎使用_代替剩下的case，这可能会导致case在没有覆盖所有的情况下*)
    ```
 
 3.
