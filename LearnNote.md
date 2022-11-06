@@ -563,7 +563,7 @@ TODO:
          | head::(neck::rest) => (head <= neck andalso nondecreasing (neck::rest))
 
    datatype sgn = P | N | Z
-   定义类型
+   <!-- 定义类型P代表正数，N代表负数，Z代表0 -->
    ```
 
 3.
