@@ -564,6 +564,19 @@ TODO:
 
    datatype sgn = P | N | Z
    <!-- 定义类型P代表正数，N代表负数，Z代表0 -->
+
+   fun multsign (x1,x2) = 
+      let fun sign x = if x=0 then Z else if x>0 then P else N 
+      in
+      case (sign x1,sign x2) of
+       (Z,_) => Z
+        | (_,Z) => Z
+        | (P,P) => P
+        | (N,N) => P
+        | _     => N (* many say bad style; I am okay with it *)
+      end
+
+   (* 谨慎使用*)
    ```
 
 3.
