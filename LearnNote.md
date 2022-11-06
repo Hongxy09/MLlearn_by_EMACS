@@ -555,3 +555,5 @@ TODO:
                               (a::l1,b::l2,c::l3)
                               end
    ```
+
+zip3的类型：val zip3 = fn : 'a list \*'b list\* 'c list -> ('a \*'b\* 'c) list
