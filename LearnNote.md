@@ -530,7 +530,7 @@ TODO:
 ### Nested Patterns
 
 1. zipping and unzipping
-2. pattern的嵌套:
+2. pattern的嵌套:函数的输入是一个pattern但是这个pattern可以是嵌套的pattern
    * zip3的类型：val zip3 = fn : 'a list \*'b list\* 'c list -> ('a \*'b\* 'c) list
    * unzip3的类型：val unzip3 = fn : ('a \*'b\* 'c) list -> 'a list \*'b list\* 'c list
    * ([ ],[ ],[ ])->a pattern for a tupple with three patterns for lists inside of it.
@@ -556,3 +556,4 @@ TODO:
                               (a::l1,b::l2,c::l3)
                               end
    ```
+3.
