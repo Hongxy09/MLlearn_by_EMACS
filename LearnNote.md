@@ -489,8 +489,6 @@ fun partial_name {first=x, middle=y, last=z} =
     x ^ " " ^ z
 ```
 
-TODO:
-
 ### Polymorphic and Equality Types
 
 1. 关于多态型的通用性
