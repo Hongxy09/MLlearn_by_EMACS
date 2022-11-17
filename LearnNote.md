@@ -588,5 +588,5 @@ fun partial_name {first=x, middle=y, last=z} =
    * p is variable x->v
    * p is _ x->nothing
    * p is (p1,p2...pn)->(v1,v2...vn)
-   * 
+     * 模式匹配中的一个额外规则是，永远不允许多次使用变量。如果尝试在一个模式中多次使用同一变量，编译器将拒绝该变量。
      <!-- 这将只匹配同样是元组的值，其中包含N个值。只有当P1匹配V1，P2匹配V2，以此类推，直到PN匹配VN。同时还需要注意-->
