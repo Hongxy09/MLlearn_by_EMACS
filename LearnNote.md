@@ -584,4 +584,4 @@ fun partial_name {first=x, middle=y, last=z} =
    (*当您不需要分支中的相应数据时，通配符(_)会将其简洁地传达给阅读您代码的人。*)
    ```
 3. Nested Patterns具有递归的定义
-   * p
+   * p is variable x
