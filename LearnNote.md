@@ -409,7 +409,7 @@ val c3 = (Spade,Ace)
 ### Polymorphic Datatypes
 
 1. list和option其实并不是一个type，int list才是，因此list是一个Polymorphic的type constructor，根据不同的数据类型有不同的list。**它们是采用类型参数来生成类型的东西**
-   * NONE is not a valid type because it is actually a value of type \verb#'a option#’a option.
+   * NONE is not a valid type because it is actually a value of type verb\#'a option\#’a option.
    * int \* int list是对的，list \* list不行，要有具体的list类型
 2. 函数可能是多态的也可能不是，例如sum是一个int list->int的函数，但是append函数则取决于其输入list的类型
 
