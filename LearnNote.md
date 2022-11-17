@@ -593,4 +593,4 @@ fun partial_name {first=x, middle=y, last=z} =
    * p is C p1(constructors C)->C v1(v1必须是由相同的constructors C构建的)
    * 一些嵌套patterns的例子![npp](image/nestedpattern.png)
      * 第一个例子中的::其实就是构造函数的一种，得到的Pattern就是嵌套的p1->a,p2->b...则对于右侧的值，a会匹配第一个值，b匹配第二个...d则匹配第三个之外剩下的，如果list太短->将尝试将空列表构造函数值与cons构造函数模式进行匹配，但是这显然会失败(d的构造函数是cons::，但是在少于(等于)三个元素的列表中最后一个值是空列表，空列表的构造函数显然与cons不同)
-     * 
+     * 第二个例子中如果列表过duan
