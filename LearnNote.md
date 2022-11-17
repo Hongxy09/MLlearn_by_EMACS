@@ -586,4 +586,4 @@ fun partial_name {first=x, middle=y, last=z} =
 3. Nested Patterns具有递归的定义
    * p is variable x->v
    * p is _ x->nothing
-   * p is (p1,p2...pn)->
+   * p is (p1,p2...pn)->(v1,v2...vn)
