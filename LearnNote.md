@@ -573,7 +573,7 @@ TODO:
         | (_,Z) => Z
         | (P,P) => P
         | (N,N) => P
-        | _     => N (* many say bad style; I am okay with it *)
+        | _ => N (* many say bad style; I am okay with it *)
       end
 
    (* 谨慎使用_代替剩下的case，这可能会导致case在没有覆盖所有的情况下sml不报错（但是代码可能实际上是有错误的）*)
