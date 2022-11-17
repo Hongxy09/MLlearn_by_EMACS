@@ -592,4 +592,4 @@ fun partial_name {first=x, middle=y, last=z} =
      <!-- 这将只匹配同样是元组的值，其中包含N个值。只有当P1匹配V1，P2匹配V2，以此类推，直到PN匹配VN。同时还需要注意-->
    * p is C p1(constructors C)->C v1(v1必须是由相同的constructors C构建的)
    * 一些嵌套patterns的例子![npp](image/nestedpattern.png)
-     * 第一个例子中的::其实就是构造函数的一种，得到的Pattern就是嵌套的p1->a,p2->b...
+     * 第一个例子中的::其实就是构造函数的一种，得到的Pattern就是嵌套的p1->a,p2->b...则对于右侧的值，a会匹配第一个值，b匹配第二个...d则匹配剩下的，如果
