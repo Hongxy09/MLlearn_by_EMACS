@@ -596,3 +596,11 @@ fun partial_name {first=x, middle=y, last=z} =
      * 第二个例子中如果列表过短，会和第一个例子一样。如果列表过长，那么空列表pattern会匹配一个非空列表的值，这也是无法匹配的
      * 第三个例子中，如果右边是一个空的列表，就和第二个例子中过短的列表一样
 4. Function Patterns
+   * 常见的fun方式是`fun f p = e`但是也可以写成！
+
+   ```SML
+   fun f p = e
+      |f p2 =e2
+      ...
+      
+   ```
