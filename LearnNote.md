@@ -602,5 +602,12 @@ fun partial_name {first=x, middle=y, last=z} =
    fun f p = e
       |f p2 =e2
       ...
-      
+   
+   fun eval (Constant i) = i
+     | eval (Negate e2) = ~ (eval e2)
+     | eval (Add(e1,e2)) = (eval e1) + (eval e2)
+     | eval (Multiply(e1,e2)) = (eval e1) * (eval e2)
+
+   fun append ([],ys) = ys
+     | append (x::xs',ys) = x :: append(xs',ys)
    ```
