@@ -628,6 +628,7 @@ fun mydiv (x,y) =
     then raise MyUndesirableCondition
     else x div y 
 
+(* exn is the type of all exceptions *)
 fun maxlist (xs,ex) = (* int list * exn -> int *)
     case xs of
         [] => raise ex
