@@ -637,11 +637,12 @@ fun maxlist (xs,ex) = (* int list * exn -> int *)
 val w = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
 
 val x = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
-	handle MyUndesirableCondition => 42
+ handle MyUndesirableCondition => 42
 
 (*val y = maxlist ([],MyUndesirableCondition)*)
 
 val z = maxlist ([],MyUndesirableCondition) (* 42 *)
-	handle MyUndesirableCondition => 42
+ handle MyUndesirableCondition => 42
 ```
-1. 定义一个exception和抛出一个exception是不同的
+
+1. 定义一个exception(`exception MyOtherException of int * int`)和抛出一个exception是不同的
