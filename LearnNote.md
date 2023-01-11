@@ -656,5 +656,5 @@ fun partial_name {first=x, middle=y, last=z} =
     handle MyUndesirableCondition => 42
    ```
 
-val x = maxlist ([3,4,5],MyUndesirableCondition) (*5*)
- handle MyOtherException => 42
+val x = maxlist ([],MyUndesirableCondition) (*5*)
+ handle MyOtherException(1,2) => 42
