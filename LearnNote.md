@@ -644,7 +644,7 @@ fun partial_name {first=x, middle=y, last=z} =
    ```
 
 2. 如何捕获(handle)异常`e1 handle ex => e2`
-   * 如果 E1 评估正常，那么正常evaluate，如果e1抛出异常则evaluate E2.如果 E1 引发的异常不是ex，则继续(不过终端会提示未捕获的异常"uncaught exception MyUndesirableCondition")。
+   * 如果 E1 评估正常，那么正常evaluate，如果e1抛出异常则evaluate E2.如果 E1 引发的异常不是ex，则继续(不过终端会提示未捕获的异常"uncaught exception MyUndesirableCondition",ji)。
 
    ```sml
    val x = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
