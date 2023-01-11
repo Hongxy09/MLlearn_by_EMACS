@@ -645,4 +645,4 @@ val z = maxlist ([],MyUndesirableCondition) (* 42 *)
  handle MyUndesirableCondition => 42
 ```
 
-1. 定义一个exception(`exception MyOtherException of int * int`)和抛出一个exception是不同的
+1. 定义一个exception(`exception MyOtherException of int * int`)和抛出一个exception(`raise MyOtherException(3,4)`)是不同的
