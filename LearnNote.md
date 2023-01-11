@@ -617,17 +617,11 @@ fun partial_name {first=x, middle=y, last=z} =
 运行时条件应该是错误时使用的异常
 
 ```sml
-(* Programming Languages, Dan Grossman *)
-(* Section 2: Exceptions *)
-
-fun hd xs =
-    case xs of
-        []   => raise List.Empty
-      | x::_ => x
-
 exception MyUndesirableCondition
 
 exception MyOtherException of int * int
+
+raise MyOtherException(3,4)
 
 fun mydiv (x,y) =
     if y=0
