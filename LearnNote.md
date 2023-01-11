@@ -643,7 +643,7 @@ fun partial_name {first=x, middle=y, last=z} =
 
    ```
 
-2. 如何捕获(handle)异常
+2. 如何捕获(handle)异常`e1 handle ex => e2`
 
    ```sml
    val x = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
