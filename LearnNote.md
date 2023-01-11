@@ -616,31 +616,41 @@ fun partial_name {first=x, middle=y, last=z} =
 
 运行时条件应该是错误时使用的异常
 
-```sml
-exception MyUndesirableCondition
+1. 如何抛出(raise)异常->定义exn然后raise
+   * 定义一个exception(`exception MyOtherException of int * int`)和抛出一个exception(`raise MyOtherException(3,4)`)是不同的
 
-exception MyOtherException of int * int
+   ```sml
+   exception MyUndesirableCondition
 
-raise MyOtherException(3,4)
+   exception MyOtherException of int * int
 
-fun mydiv (x,y) =
-    if y=0
-    then raise MyUndesirableCondition
-    else x div y 
+   raise MyOtherException(3,4)
 
-(* exn is the type of all exceptions *)
-fun maxlist (xs,ex) = (* int list * exn -> int *)
-    case xs of
-        [] => raise ex
-      | x::[] => x
-      | x::xs' => Int.max(x,maxlist(xs',ex))
+   fun mydiv (x,y) =
+       if y=0
+       then raise MyUndesirableCondition
+       else x div y 
 
-val w = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
-(* 此时函数输入中的MyUndesirableCondition只是一个异常值，不会引发异常 *)
+   (* exn is the type of all exceptions *)
+   fun maxlist (xs,ex) = (* int list * exn -> int *)
+       case xs of
+           [] => raise ex
+         | x::[] => x
+         | x::xs' => Int.max(x,maxlist(xs',ex))
 
-```
+   val w = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
+   (* 此时函数输入中的MyUndesirableCondition只是一个异常值，不会引发异常 *)
 
-1. 定义一个exception(`exception MyOtherException of int * int`)和抛出一个exception(`raise MyOtherException(3,4)`)是不同的
+   ```
 
-2. 如何抛出(raise)异常->定义exn然后raise
-3. 如何捕获异常
+2. 如何捕获(handle)异常
+
+   ```sml
+   val x = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
+    handle MyUndesirableCondition => 42
+
+   (*val y = maxlist ([],MyUndesirableCondition)*)
+
+   val z = maxlist ([],MyUndesirableCondition) (* 42 *)
+    handle MyUndesirableCondition => 42
+   ```
