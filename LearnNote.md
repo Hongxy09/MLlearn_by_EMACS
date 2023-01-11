@@ -613,3 +613,5 @@ fun partial_name {first=x, middle=y, last=z} =
    ```
 
 ### Exceptions
+
+运行时条件应该是错误时使用的异常
