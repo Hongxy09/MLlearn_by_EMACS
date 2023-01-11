@@ -636,7 +636,7 @@ fun maxlist (xs,ex) = (* int list * exn -> int *)
       | x::xs' => Int.max(x,maxlist(xs',ex))
 
 val w = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
-
+(* 此时函数输入中的MyUndesirableCondition只是一个异常值，不会引发异常 *)
 val x = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
  handle MyUndesirableCondition => 42
 
