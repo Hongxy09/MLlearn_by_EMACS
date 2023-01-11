@@ -644,3 +644,4 @@ val x = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
 val z = maxlist ([],MyUndesirableCondition) (* 42 *)
 	handle MyUndesirableCondition => 42
 ```
+1. 定义一个exception和
