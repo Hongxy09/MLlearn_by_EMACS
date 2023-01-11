@@ -644,7 +644,7 @@ fun partial_name {first=x, middle=y, last=z} =
    ```
 
 2. 如何捕获(handle)异常`e1 handle ex => e2`
-   * 如果 E1 评估正常，那么正常evaluate，如果e1抛出异常
+   * 如果 E1 评估正常，那么正常evaluate，如果e1抛出异常则evaluate E2
 
    ```sml
    val x = maxlist ([3,4,5],MyUndesirableCondition) (* 5 *)
