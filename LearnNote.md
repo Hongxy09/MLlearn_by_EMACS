@@ -655,3 +655,6 @@ fun partial_name {first=x, middle=y, last=z} =
    val z = maxlist ([],MyUndesirableCondition) (* 42 *)
     handle MyUndesirableCondition => 42
    ```
+
+val x = maxlist ([3,4,5],MyUndesirableCondition) (*5*)
+ handle MyOtherException => 42
