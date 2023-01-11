@@ -611,3 +611,5 @@ fun partial_name {first=x, middle=y, last=z} =
    fun append ([],ys) = ys
      | append (x::xs',ys) = x :: append(xs',ys)
    ```
+
+### Exceptions
