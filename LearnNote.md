@@ -462,7 +462,7 @@ datatype ('a,'b) flower =
    * expression是datatype的构造函数之一时不适用，因为val就像是一个单臂的case of，对于each-of-type这种单臂表达式是合适的因为我们只需要一个分支，但是对于datatype我们需要其所有分支
    * 例如`val NONE = SOME 2;`这里的SOME 2就是option(one of)的pattern SOME构造的表达式，option也是一个datatype，所以我的推测是会报错(It won't compile because of a type error.)
    * 实际上：Bind exception will be raised，但是NONE和SOME 2不匹配，但没有其他模式可供尝试。因此，发生非详尽的绑定失败。
-   * 用let in代替单臂case![let](image/pattern_tuple_no_one_arm_case.png)这里用letin代替单臂case，这里的val意味着把triple表达式的值绑定到(x,y,z)这个tuple pattern上，这个时候x,y,z会绑定动态环境中triple的三个对应的部分的值。在full_name函数中，val的pattern是一个record pattern，其右侧的表达式r必须是一个record，且其对应的filed name是val表达式左侧pattern中的filed name，且所有的filed都是string
+   * 用let in代替单臂case![let](image/pattern_tuple_no_one_arm_case.png)这里用letin代替单臂case，这里的val意味着把triple表达式的值绑定到(x,y,z)这个tuple pattern上，这个时候x,y,z会绑定动态环境中triple的三个对应的部分的值。在full_name函数中，val的pattern是一个record pattern，其右侧的表达式r必须是一个record，且其对应的filed name是val表达式左侧pattern中的filed name，且所有的filed都是string.
 
 3. `fun f v = 'body'->expression`的真相是`fun f p = e`
    * 下列的例子就是用于提取tuple和record的模式匹配
