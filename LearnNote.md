@@ -661,3 +661,4 @@ fun partial_name {first=x, middle=y, last=z} =
 1. 堆栈
    * 当调用一个函数F时，它所做的是将一些实例推到堆栈上，一些东西将留在堆栈上，直到对F的调用完成，当对F的调用完成时，我们将从堆栈中弹出它。
    * 堆栈包含所有已开始和未完成的调用
+2. 尾递归：The result of the recursive call is the result. 递归调用的结果就是结果。没有额外的计算。
