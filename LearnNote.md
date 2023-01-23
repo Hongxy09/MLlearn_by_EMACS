@@ -658,4 +658,4 @@ fun partial_name {first=x, middle=y, last=z} =
 
 ### Tail Recursion
 
-
+堆栈：当调用一个函数F时，它所做的是将一些实例推到堆栈上，一些东西将留在堆栈上，直到对F的调用完成，当对F的呼叫完成时，我们将从堆栈中弹出它。
