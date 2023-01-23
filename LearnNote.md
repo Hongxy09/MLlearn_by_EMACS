@@ -673,5 +673,6 @@ fun partial_name {first=x, middle=y, last=z} =
       in
         aux(n,1)
       end
+   (* The result of the recursive call is the result. *)
     ```
 2. 尾递归：The result of the recursive call is the result. 递归调用的结果就是结果。没有额外的计算。
