@@ -681,3 +681,4 @@ fun partial_name {first=x, middle=y, last=z} =
    * 未替代的堆栈情况![tail_call_noreplace](image/fake_tail_call.png)
    * 替代的堆栈情况![tail_call](image/true_tail_call.png)
    * 由于没有额外的计算，实际上不存在堆栈，整个函数的调用共享一份空间(即`fact 3`会被`aux(3,1)`取代)，最后计算出的结果会直接返回而非一层层返回，每一列方框是一个时刻，顺序是从左到右。
+4. Accumulators for Tail Recursion尾递归的累加器
