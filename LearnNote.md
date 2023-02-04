@@ -676,7 +676,7 @@ fun partial_name {first=x, middle=y, last=z} =
    * 当调用一个函数F时，它所做的是将一些实例推到堆栈上，一些东西将留在堆栈上，直到对F的调用完成，当对F的调用完成时，我们将从堆栈中弹出它。
    * 堆栈包含所有已开始和未完成的调用
 
-2. 尾递归：The result of the recursive call is the result. 递归调用的结果就是结果。没有额外的计算。
+2. 尾递归：The result of the recursive call is the result. 当我们进行递归时，在递归调用完成后，调用者就没有更多的工作要做了。
 3. 如果堆栈帧所要做的只是从被调用方获取结果并立即返回它，那么根本不需要保留堆栈帧。所以tail call会在调用之前移除调用方的堆栈帧，以便被调用方仅重用调用方使用的相同堆栈空间。即在实际的tail call中，堆栈的空间会被重复利用，即调用的堆栈帧会替代之前调用方占据的堆栈帧。
    * 未替代的堆栈情况![tail_call_noreplace](image/fake_tail_call.png)
    * 替代的堆栈情况![tail_call](image/true_tail_call.png)
