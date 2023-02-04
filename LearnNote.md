@@ -670,6 +670,36 @@ fun partial_name {first=x, middle=y, last=z} =
         aux(n,1)
       end
    (* The result of the recursive call is the result. *)
+
+   fun sum1 xs =
+    case xs of
+        [] => 0
+      | i::xs' => i + sum1 xs'
+   (* 非尾递归 *)
+   fun sum2 xs =
+       let fun f (xs,acc) =
+               case xs of
+                   [] => acc
+                 | i::xs' => f(xs',i+acc)
+       in
+           f(xs,0)
+       end
+   (* 尾递归 *)
+   
+   fun rev1 xs =
+      case xs of
+          [] => []
+        | x::xs' => (rev1 xs') @ [x]
+   (* 这里是将x作为一个列表放在结果的尾部，这样做很没有效率 *)
+   fun rev2 xs =
+       let fun aux(xs,acc) =
+               case xs of
+                   [] => acc
+                 | x::xs' => aux(xs', x::acc)
+       in
+           aux(xs,[])
+       end
+   (*  acc有Accumulator的意思  *)
    ```
 
 1. 堆栈
@@ -681,4 +711,5 @@ fun partial_name {first=x, middle=y, last=z} =
    * 未替代的堆栈情况![tail_call_noreplace](image/fake_tail_call.png)
    * 替代的堆栈情况![tail_call](image/true_tail_call.png)
    * 由于没有额外的计算，实际上不存在堆栈，整个函数的调用共享一份空间(即`fact 3`会被`aux(3,1)`取代)，最后计算出的结果会直接返回而非一层层返回，每一列方框是一个时刻，顺序是从左到右。
-4. Accumulators for Tail Recursion尾递归的累加器
+4. Accumulators for Tail Recursion尾递归的累加器，普通函数转为尾递归函数的常见方法是：增加一个helper fun，例如上述代码中的`aux`
+   * 关于`rev1`为何糟糕：这个附加运算符`@`总是复制第一个列表。这就是append的工作原理。在append版本中，无论append是否为尾部递归，都会发生同样的情况。这导致做了很多多余的运算，当我们有k个递归调用时，其中一个将复制长度为1的列表，一个长度为2的列表，另一个长度是3的列表，一直到长度为k减1的列表中的一个，或者甚至是k。这会很不高效，而尾递归没有做这种复制，它只使用了一个列表，并cons。
