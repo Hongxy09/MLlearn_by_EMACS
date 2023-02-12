@@ -6,14 +6,20 @@ fun same_string(s1 : string, s2 : string) =
 
 (* put your solutions for problem 1 here *)
 
-fun all_except_option(s:string,sl:string list) = 
-     let fun f (s,acc) =
-             case xs of
-                [] => acc
-               | i::xs' => f(xs',i+acc)
-     in
-         f(xs,0)
-     end
+fun all_except_option(str:string,strls:string list) = 
+    case strls of
+        [] => NONE
+        | i::strls' => if same_string(i,str)
+                        then 1 
+                        else n * fact1(n-1)
+
+
+fun get_substitutions1(strlsls:string list list,str:string) =
+fun get_substitutions2(strlsls:string list list,str:string) =
+fun similar_names(strlsls:string list list,fullname:{first:string, last:string, middle:string}) = 
+
+
+
 
 
 
