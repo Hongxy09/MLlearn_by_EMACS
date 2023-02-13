@@ -7,12 +7,26 @@ fun same_string(s1 : string, s2 : string) =
 (* put your solutions for problem 1 here *)
 
 fun all_except_option(str:string,strls:string list) = 
-    if same_string(str,i)
-    then all_except_option(str,strls')
-    else  
+   let fun f (xs,acc) =
+             case xs of
+                [] => NONE
+                | x::xs' => if same_string(x,str)
+                            then SOME (xs' @ acc)
+                            else f (xs',x::acc)
+    in
+        f(strls,[])
+    end 
 
 
 fun get_substitutions1(strlsls:string list list,str:string) =
+   let fun f (xs,acc) =
+             case xs of
+                [] => acc
+                | x::xs' => if 
+    in
+        f(strlsls,[])
+    end 
+
 fun get_substitutions2(strlsls:string list list,str:string) =
 fun similar_names(strlsls:string list list,fullname:{first:string, last:string, middle:string}) = 
 
