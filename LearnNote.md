@@ -278,7 +278,7 @@ fun append (xs,ys) =
     case xs of
       [] => ys
       | x::xs' => x :: append(xs',ys)
-<!-- append的分支顺序可以交换，因为case不是顺序执行而是择一执行 -->
+(* append的分支顺序可以交换，因为case不是顺序执行而是择一执行 *) 
 ```
 
 case表达式可以有效避免list为空或者option为空产生的错误，应当多用case而非isSome...
