@@ -7,11 +7,15 @@ fun same_string(s1 : string, s2 : string) =
 (* put your solutions for problem 1 here *)
 
 fun all_except_option(str:string,strls:string list) = 
-    case strls of
-        [] => NONE
-        | i::strls' => if same_string(i,str)
-                        then 1 
-                        else n * fact1(n-1)
+     let fun f (strls,acc) =
+             case strls of
+                [] => NONE
+                | i::strls' => if same_string(str,i)
+                                then all_except_option(str,strls')
+                                else 
+     in
+         f(xs,0)
+     end
 
 
 fun get_substitutions1(strlsls:string list list,str:string) =

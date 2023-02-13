@@ -403,7 +403,7 @@ fun is_Queen_of_Spades (c : card) =
 val c1 : card = (Diamond,Ace)
 val c2 : suit * rank = (Heart,Ace)
 val c3 = (Spade,Ace)
-<!-- 这三种定义方式都是合理的，其类型都是card，在输出的时候可能显示的不同，即card或者suit * rank，但是本质是一样的 -->
+(* 这三种定义方式都是合理的，其类型都是card，在输出的时候可能显示的不同，即card或者suit * rank，但是本质是一样的  *)
 ```
 
 ### Polymorphic Datatypes
@@ -498,11 +498,11 @@ fun partial_name {first=x, middle=y, last=z} =
 
    ```SML
       type foo = int*int
-      <!-- record 1 通用性r1>r2=r3-->
+      (* record 1 通用性r1>r2=r3 *)
       {quux:'b, bar:int*'a, baz:'b}
-      <!-- record 2 r2的每个'a和'b都必须被一致地替换例如'a->int,'b->string-->
+      (* record 2 r2的每个'a和'b都必须被一致地替换例如'a->int,'b->string *)
       {quux:string, bar:foo, baz:string}
-      <!-- record 3 -->
+      (* record 3  *)
       {bar:int*int, quux:string, baz:string}
 
    ```
@@ -561,7 +561,7 @@ fun partial_name {first=x, middle=y, last=z} =
          | head::(neck::rest) => (head <= neck andalso nondecreasing (neck::rest))
 
    datatype sgn = P | N | Z
-   <!-- 定义类型P代表正数，N代表负数，Z代表0 -->
+   (* 定义类型P代表正数，N代表负数，Z代表0  *)
 
    fun multsign (x1,x2) = 
       let fun sign x = if x=0 then Z else if x>0 then P else N 
@@ -589,14 +589,14 @@ fun partial_name {first=x, middle=y, last=z} =
    * p is _ x->nothing
    * p is (p1,p2...pn)->(v1,v2...vn)
      * 模式匹配中的一个额外规则是，永远不允许多次使用变量。如果尝试在一个模式中多次使用同一变量，编译器将拒绝该变量。
-     <!-- 这将只匹配同样是元组的值，其中包含N个值。只有当P1匹配V1，P2匹配V2，以此类推，直到PN匹配VN。同时还需要注意-->
+     (* 这将只匹配同样是元组的值，其中包含N个值。只有当P1匹配V1，P2匹配V2，以此类推，直到PN匹配VN。同时还需要注意 *)
    * p is C p1(constructors C)->C v1(v1必须是由相同的constructors C构建的)
    * 一些嵌套patterns的例子![npp](image/nestedpattern.png)
      * 第一个例子中的::其实就是构造函数的一种，得到的Pattern就是嵌套的p1->a,p2->b...则对于右侧的值，a会匹配第一个值，b匹配第二个...d则匹配第三个之外剩下的，如果list太短->将尝试将空列表构造函数值与cons构造函数模式进行匹配，但是这显然会失败(即`::c::d->[]`c的构造函数是cons::(这个是针对非空列表的构造函数)，但是在少于三个元素的列表中最后一个值是空列表，空列表的构造函数显然与cons不同，则c就不能与空列表的构造函数获得的值去匹配)
      * 第二个例子中如果列表过短，会和第一个例子一样。如果列表过长，那么空列表pattern会匹配一个非空列表的值，这也是无法匹配的
      * 第三个例子中，如果右边是一个空的列表，就和第二个例子中过短的列表一样
 4. Function Patterns->case of的简写
-   * 常见的fun方式是`fun f p = e`但是也可以写成！
+   * 常见的fun方式是`fun f p = e`但是也可以写成
 
    ```SML
    fun f p = e
