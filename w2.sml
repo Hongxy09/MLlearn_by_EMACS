@@ -1,6 +1,7 @@
 (* Dan Grossman, Coursera PL, HW2 Provided Code *)
 
 (* if you use this function to compare two strings (returns true if the same string), then you avoid several of the functions in problem 1 having polymorphic types that may be confusing *)
+
 fun same_string(s1 : string, s2 : string) =
     s1 = s2
 
@@ -19,10 +20,10 @@ fun all_except_option(str:string,strls:string list) =
 
 
 fun get_substitutions1(strlsls:string list list,str:string) =
-   let fun f (xs,acc) =
-             case xs of
-                [] => acc
-                | x::xs' => if 
+   let fun f(ls::lsls,acc) =
+            case all_except_option(str,ls) of
+                SOME strls => strls @ f(lsls,acc)
+                | NONE => f(lsls,acc)
     in
         f(strlsls,[])
     end 
