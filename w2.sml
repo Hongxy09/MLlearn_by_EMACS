@@ -18,20 +18,39 @@ fun all_except_option(str:string,strls:string list) =
         f(strls,[])
     end 
 
-
-fun get_substitutions1(strlsls:string list list,str:string) =
-   let fun f(ls::lsls,acc) =
-            case all_except_option(str,ls) of
-                SOME strls => strls @ f(lsls,acc)
-                | NONE => f(lsls,acc)
+(* I can't write a non-recursive solution *)
+fun get_substitutions1(inputstrlsls:string list list,str:string) =
+   let fun f(strlsls,acc,str) =
+        case strlsls of 
+            [] => acc
+            | firls::lsls => case all_except_option(str,firls) of
+                            SOME xs => f(lsls,xs @ acc,str)
+                            | NONE => f(lsls,acc,str)
     in
-        f(strlsls,[])
+        f(inputstrlsls,[],str)
     end 
 
 fun get_substitutions2(strlsls:string list list,str:string) =
-fun similar_names(strlsls:string list list,fullname:{first:string, last:string, middle:string}) = 
+   let fun f(strlsls,acc,str) =
+        case strlsls of 
+            [] => acc
+            | firls::lsls => case all_except_option(str,firls) of
+                            SOME xs => f(lsls,xs @ acc,str)
+                            | NONE => f(lsls,acc,str)
+    in
+        f(inputstrlsls,[],str)
+    end 
 
-
+fun similar_names(strlsls:string list list,fullname:{first=x, last=y, middle=z}) = 
+    let val newnamels = get_substitutions2(strlsls,x)
+    in
+        let fun samename(newnamels,res)=
+            case newnamels of
+            [] => res
+            |a::ls=>samename(ls,res@[{first=a, last=y, middle=z}}])
+        in samename(newnamels,[fullname])
+        end
+    end
 
 
 
