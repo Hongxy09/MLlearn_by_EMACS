@@ -50,7 +50,7 @@ fun similar_names(strlsls:string list list,fullname:{first=x, last=y, middle=z})
             |a::ls=>samename(ls,res@[{first=a, last=y, middle=z}}])
         in samename(newnamels,[fullname])
         end
-    end
+    end  
 
 
 
