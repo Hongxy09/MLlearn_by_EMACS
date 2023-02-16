@@ -3,7 +3,7 @@
 (* if you use this function to compare two strings (returns true if the same string), then you avoid several of the functions in problem 1 having polymorphic types that may be confusing *)
 
 fun same_string(s1 : string, s2 : string) =
-    s1 = s2
+    s1 = s2;
 
 (* put your solutions for problem 1 here *)
 
@@ -16,7 +16,7 @@ fun all_except_option(str:string,strls:string list) =
                             else f (xs',x::acc)
     in
         f(strls,[])
-    end 
+    end;
 
 (* I can't write a non-recursive solution *)
 fun get_substitutions1(inputstrlsls:string list list,str:string) =
@@ -28,7 +28,7 @@ fun get_substitutions1(inputstrlsls:string list list,str:string) =
                             | NONE => f(lsls,acc,str)
     in
         f(inputstrlsls,[],str)
-    end 
+    end; 
 
 fun get_substitutions2(strlsls:string list list,str:string) =
    let fun f(strlsls,acc,str) =
@@ -38,19 +38,21 @@ fun get_substitutions2(strlsls:string list list,str:string) =
                             SOME xs => f(lsls,xs @ acc,str)
                             | NONE => f(lsls,acc,str)
     in
-        f(inputstrlsls,[],str)
-    end 
+        f(strlsls,[],str)
+    end;
 
-fun similar_names(strlsls:string list list,fullname:{first=x, last=y, middle=z}) = 
-    let val newnamels = get_substitutions2(strlsls,x)
+fun similar_names(strlsls:string list list,{first=x, last=y, middle=z}) = 
+    let 
+        val newnamels = get_substitutions1(strlsls,x)
     in
         let fun samename(newnamels,res)=
-            case newnamels of
-            [] => res
-            |a::ls=>samename(ls,res@[{first=a, last=y, middle=z}}])
-        in samename(newnamels,[fullname])
+                case newnamels of
+                    [] => res
+                    |a::ls => samename(ls,res@[{first=a, last=y, middle=z}])
+        in 
+            samename(newnamels,[{first=x, last=y, middle=z}])
         end
-    end  
+    end;
 
 
 
