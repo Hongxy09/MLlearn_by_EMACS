@@ -55,8 +55,6 @@ fun similar_names(strlsls:string list list,{first=x, last=y, middle=z}) =
     end;
 
 
-
-
 (* you may assume that Num is always used with values 2, 3, ..., 10 though it will not really come up *)
 datatype suit = Clubs | Diamonds | Hearts | Spades
 datatype rank = Jack | Queen | King | Ace | Num of int 
@@ -68,3 +66,9 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
+
+fun card_color(onecard:card) = 
+    case onecard of
+        (Clubs,_) => Black
+        |(Clubs,_) => Black
+        
