@@ -70,5 +70,16 @@ exception IllegalMove
 fun card_color(onecard:card) = 
     case onecard of
         (Clubs,_) => Black
-        |(Clubs,_) => Black
+        |(Spades,_) => Black
+        |(Diamonds,_) => Red
+        |(Hearts,_) => Red;
         
+fun card_value(onecard:card) = 
+    case onecard of
+        (_,Num x) => x
+        |(_,Ace) => 11
+        |_ => 10;
+
+                
+fun remove_card(cs:card list,c:card,e:exn) = 
+    
