@@ -80,6 +80,31 @@ fun card_value(onecard:card) =
         |(_,Ace) => 11
         |_ => 10;
 
-                
+       
+fun len xs =
+    case xs of
+    [] => 0
+    | _::xs' => 1 + len xs';
+
+         
 fun remove_card(cs:card list,c:card,e:exn) = 
-    
+    let fun f(cardls,acc)=
+            case cardls of
+                [] => if len(acc)<len(cs)
+                      then acc
+                      else raise e
+                |x::xs' => if x=c 
+                           then f([],acc @ xs')
+                           else f(xs',acc @ [x])
+    in 
+        f(cs,[])
+    end;
+
+fun all_same_color(cs:card list)=
+    let fun f(cardls,col)=
+            case cardls of
+                [] => true
+                | c::cs' => card_color(c)=all_same_color(cs');
+    in 
+        f(cs,[])
+    end;
