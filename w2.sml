@@ -101,10 +101,24 @@ fun remove_card(cs:card list,c:card,e:exn) =
     end;
 
 fun all_same_color(cs:card list)=
-    let fun f(cardls,col)=
+    case cs of
+        [] => true
+        | x::[] => true
+        | a::(b::c) => (card_color(a) = card_color(b) andalso all_same_color(b::c));
+
+fun sum_cards(cs:card list) = 
+    let fun f(cardls,acc)=
             case cardls of
-                [] => true
-                | c::cs' => card_color(c)=all_same_color(cs');
+                [] => acc
+                |i::xs' => f(xs',card_value(i)+acc)
     in 
-        f(cs,[])
+        f(cs,0)
+    end;
+
+fun score(heldcards:card list,goal:int) = 
+    let 
+        val heldcardssum = sum_cards(heldcards)
+        val primscore = if heldcardssum>goal then 3*(heldcardssum-goal) else (goal-heldcardssum)
+    in
+        if all_same_color(heldcards) then primscore div 2 else primscore
     end;
