@@ -122,3 +122,4 @@ fun score(heldcards:card list,goal:int) =
     in
         if all_same_color(heldcards) then primscore div 2 else primscore
     end;
+ 
