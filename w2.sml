@@ -128,14 +128,11 @@ fun officiate(cardls:card list,movels:move list,goal:int) =
             case movelist of
                 [] => score(heldcards,goal)
                 |x::movelist' => case x of
-                                    Draw => let val cards = cardlist
-                                            in 
-                                                case cards of 
-                                                    [] => score(heldcards,goal)
-                                                    |c::cards' => if sum_cards(c::heldcards) > goal
-                                                                    then score(c::heldcards,goal)
-                                                                    else f(cards',movelist',c::heldcards)
-                                            end
+                                    Draw => (case cardlist of 
+                                                [] => score(heldcards,goal)
+                                                |c::cardlist' => if sum_cards(c::heldcards) > goal
+                                                                then score(c::heldcards,goal)
+                                                                else f(cardlist',movelist',c::heldcards))
                                     |Discard c => let
                                                     val newheld = remove_card(heldcards,c,IllegalMove)
                                                   in
