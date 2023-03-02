@@ -54,7 +54,26 @@ fun similar_names(strlsls:string list list,{first=x, last=y, middle=z}) =
         end
     end;
 
+fun similar_names2(strlsls:string list list,{first=x, last=y, middle=z}) = 
+    let fun samename(newnamels)=
+            case newnamels of
+                [] => []
+                |a::ls => samename(ls,res@[{first=a, last=y, middle=z}])
+    in 
+        samename(get_substitutions1(strlsls,x)@[{first=x, last=y, middle=z}])
+    end
 
+(* good style *)
+fun similar_names (substitutions,name) =
+    let 
+        val {first=f, middle=m, last=l} = name
+	      fun make_names xs =
+	         case xs of
+		        [] => []
+	           | x::xs' => {first=x, middle=m, last=l}::(make_names(xs'))
+    in
+	      name::make_names(get_substitutions2(substitutions,f))
+    end
 (* you may assume that Num is always used with values 2, 3, ..., 10 though it will not really come up *)
 datatype suit = Clubs | Diamonds | Hearts | Spades
 datatype rank = Jack | Queen | King | Ace | Num of int 
@@ -98,6 +117,21 @@ fun remove_card(cs:card list,c:card,e:exn) =
                            else f(xs',acc @ [x])
     in 
         f(cs,[])
+    end;
+
+
+(* good style *)
+fun remove_card1 (cs,c,e) =
+    case cs of
+	    [] => raise e
+        | x::cs' => if x = c then cs' else x :: remove_card(cs',c,e);
+fun remove_card2 (cs,c,e) =
+    let	fun f cs =
+	          case cs of
+                [] => raise e
+                | x::cs' => if x = c then cs' else x :: f cs'
+    in
+        f cs
     end;
 
 fun all_same_color(cs:card list)=
