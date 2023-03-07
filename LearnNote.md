@@ -721,4 +721,17 @@ fun partial_name {first=x, middle=y, last=z} =
    * 只有表达式`e`之后没有其他的工作要做才是tail call，不然就算在尾部也不是tail call
 
 ## W4
- 
+
+函数式语言是一种简单、自然、常规的编程方式。
+
+### First-Class Functions
+
+```sml
+fun double x = 2*x
+fun incr x = x+1
+val a_tuple = (double, incr, double(incr 7))
+val eighteen = (#1 a_tuple) 9
+```
+
+这类函数的定义是： Wherever you use numbers or lists or strings or trees, you could also put functions there.
+注意这里的使用并非调用函数，也不进行函数所需参数的传递，而是将函数作为一个“值”来使用。
