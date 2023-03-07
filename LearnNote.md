@@ -726,6 +726,8 @@ fun partial_name {first=x, middle=y, last=z} =
 
 ### First-Class Functions
 
+First-Class Functions means functions you can pass around and put anywhere you want.
+
 ```sml
 fun double x = 2*x
 fun incr x = x+1
@@ -734,4 +736,9 @@ val eighteen = (#1 a_tuple) 9
 ```
 
 这类函数的定义是： Wherever you use numbers or lists or strings or trees, you could also put functions there.
-注意这里的使用并非调用函数，也不进行函数所需参数的传递，而是将函数作为一个“值”来使用。
+注意这里的使用并非调用函数，也不进行函数所需参数的传递，而是将函数`First-Class Functions`作为一个“值”来使用。比较常见的用法是将函数作为另一个函数`higher-order function`的参数或者结果。
+
+### Function closure
+
+Function closures means functions that can use things in the environment, not just arguments and local variables.
+在函数中可以使用非`函数参数`和`函数内部参数`的`外部参数`
