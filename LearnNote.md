@@ -590,7 +590,7 @@ fun partial_name {first=x, middle=y, last=z} =
    * p is _ x->nothing
    * p is (p1,p2...pn)->(v1,v2...vn)
      * 模式匹配中的一个额外规则是，永远不允许多次使用变量。如果尝试在一个模式中多次使用同一变量，编译器将拒绝该变量。
-     (* 这将只匹配同样是元组的值，其中包含N个值。只有当P1匹配V1，P2匹配V2，以此类推，直到PN匹配VN。同时还需要注意 *)
+     (*这将只匹配同样是元组的值，其中包含N个值。只有当P1匹配V1，P2匹配V2，以此类推，直到PN匹配VN。同时还需要注意*)
    * p is C p1(constructors C)->C v1(v1必须是由相同的constructors C构建的)
    * 一些嵌套patterns的例子![npp](image/nestedpattern.png)
      * 第一个例子中的::其实就是构造函数的一种，得到的Pattern就是嵌套的p1->a,p2->b...则对于右侧的值，a会匹配第一个值，b匹配第二个...d则匹配第三个之外剩下的，如果list太短->将尝试将空列表构造函数值与cons构造函数模式进行匹配，但是这显然会失败(即`::c::d->[]`c的构造函数是cons::(这个是针对非空列表的构造函数)，但是在少于三个元素的列表中最后一个值是空列表，空列表的构造函数显然与cons不同，则c就不能与空列表的构造函数获得的值去匹配)
@@ -719,3 +719,5 @@ fun partial_name {first=x, middle=y, last=z} =
    * exp:`if e1 then e2 else e3`中的`e2`和`e3`就是tail call
    * `if let b1 ... bn  in e end`的`e`也是tail call
    * 只有表达式`e`之后没有其他的工作要做才是tail call，不然就算在尾部也不是tail call
+
+## W4
