@@ -766,7 +766,7 @@ fun n_times (f,n,x) =
     if n=0
     then x
     else f(n_times(f,n-1,x))
-(* 最后的else也可以是n_times(f,n-1,x)，这取决于是否对递归的结果进一步运算，n_times这个函数真是方便好用！ *)
+(* 最后的else也可以是n_times(f,n-1,x)，这取决于是否对递归的结果进一步运算，n_times这个函数真是方便好用！ 注意的是这里n_times(f,n-1,x)传回的数据类型要和f符合，因为n_times(f,n-1,x)的结果会传回f函数中*)
 
 fun increment x = x+1
 
@@ -790,6 +790,26 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 ```
 
 #### Polymorphic Types and Functions as Arguments
+
+`n_times`这样的高阶函数通常是多态的(`val n_times = fn : ('a -> 'a) * int * 'a -> 'a`)
+
+1. 无论x的类型是什么，都必须是整个函数的返回类型。且f函数的输入数据的类型一定要是n_times的输出类型==f的参数类型必须是f的结果类型=x的类型=f函数的返回类型。但是实际上写的时候不用在意类型，因为是多态的。
+2. `Polymorphic`多态类型的概念和`Functions as Arguments`函数将其他函数作为参数的概念实际上是两个独立的问题。即高阶函数可以是非多态性，或者一阶函数也可以是多态性的。
+
+   ```sml
+   (* higher-order functions are often polymorphic based on "whatever type of function is passed" but not always: *)
+   fun times_until_zero (f,x) =
+       (*note: a better implementation would be tail-recursive*)
+       if x=0 then 0 else 1 + times_until_zero(f, f x)
+   (* fn : (int -> int) * int -> int ,首先x是int，其次f的输入是x所以输入也是int，输出是传回times_until_zero的所以输出也是int*)
+
+   (*conversely, we have seen polymorphic functions that are not higher-order*)
+   fun len xs =
+       case xs of
+          [] => 0
+         | x::xs' => 1 + len xs'
+
+   ```
 
 ### Function closure
 
