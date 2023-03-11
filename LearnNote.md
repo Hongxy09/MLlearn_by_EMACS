@@ -738,6 +738,12 @@ val eighteen = (#1 a_tuple) 9
 这类函数的定义是： Wherever you use numbers or lists or strings or trees, you could also put functions there.
 注意这里的使用并非调用函数，也不进行函数所需参数的传递，而是将函数`First-Class Functions`作为一个“值”来使用。比较常见的用法是将函数作为另一个函数`higher-order function`的参数或者结果。
 
+#### functions as arguments
+
+我们不需要有n个非常相似的函数，我们可以有一个具有所有公共部分的函数，然后传入n个不同的较短函数
+
+1. 
+
 ### Function closure
 
 Function closures means functions that can use things in the environment, not just arguments and local variables.
