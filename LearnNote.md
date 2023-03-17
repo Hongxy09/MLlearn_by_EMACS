@@ -813,41 +813,45 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
 ### Anonymous Functions
 
-在高阶函数中更加实用的helper fun的写法是Anonymous Functions，但是不能用于递归函数，因为递归需要调用函数的名字，但是Anonymous Functions没有名字
+1. 在高阶函数中更加实用的helper fun的写法是Anonymous Functions（匿名函数），但是不能用于递归函数，因为递归需要调用函数的名字，但是Anonymous Functions没有名字
 
-```sml
-fun n_times (f,n,x) = 
-    if n=0
-    then x
-    else f (n_times(f,n-1,x))
+   ```sml
+   fun n_times (f,n,x) = 
+       if n=0
+       then x
+       else f (n_times(f,n-1,x))
 
-fun triple x = 3*x
+   fun triple x = 3*x
 
-fun triple_n_times1 (n,x) = n_times(triple,n,x)
+   fun triple_n_times1 (n,x) = n_times(triple,n,x)
 
-fun triple_n_times2 (n,x) =
-  let fun triple x = 3*x in n_times(triple,n,x) end
+   fun triple_n_times2 (n,x) =
+     let fun triple x = 3*x in n_times(triple,n,x) end
 
-(* actually since used only once, we could define it 
-   right where we need it *)
+   (* actually since used only once, we could define it 
+      right where we need it *)
 
-fun triple_n_times3 (n,x) = 
-    n_times((let fun triple y = 3*y in triple end), n, x)
-(* 可以进一步简化为n_times((fun triple x = 3*x, n, x),但是这是一个绑定而不是表达式。我们需要的是一些表示函数的表达式，该函数是作为表达式而不是作为绑定的函数。*)
-(* This does not work: a function /binding/ is not an /expression/ *)
-(* fun triple_n_times3 (n,x) = n_times((fun triple y = 3*y), n, x) *)
+   fun triple_n_times3 (n,x) = 
+       n_times((let fun triple y = 3*y in triple end), n, x)
+   (* 可以进一步简化为n_times((fun triple x = 3*x, n, x),但是这是一个绑定而不是表达式。我们需要的是一些表示函数的表达式，该函数是作为表达式而不是作为绑定的函数。*)
+   (* This does not work: a function /binding/ is not an /expression/ *)
+   (* fun triple_n_times3 (n,x) = n_times((fun triple y = 3*y), n, x) *)
 
-(* This /anonymous function/ expression works and is the best style: *)
-(* Notice the function has no name, fun expression没有名字 *)
+   (* This /anonymous function/ expression works and is the best style: *)
+   (* Notice the function has no name, fun expression没有名字 *)
 
-fun triple_n_times4 (n,x) = n_times((fn y => 3*y), n, x)
+   fun triple_n_times4 (n,x) = n_times((fn y => 3*y), n, x)
 
-(* because triple_n_times4 does not call itself, we could use a val-binding
-   to define it, but the fun binding above is better style *)
-val triple_n_times5 = fn (n,x) => n_times((fn y => 3*y), n, x)
-```
+   (* because triple_n_times4 does not call itself, we could use a val-binding
+      to define it, but the fun binding above is better style *)
+   val triple_n_times5 = fn (n,x) => n_times((fn y => 3*y), n, x)
+   ```
 
-`fun triple x = 3*x`实际上可以视为是`val triple = fn y => 3*y`的语法糖，如果不用于递归，`fun binding`就是`val binding`和`Anonymous Functions`的语法糖(更加简洁易读)
+   * `fun triple x = 3*x`实际上可以视为是`val triple = fn y => 3*y`的语法糖，如果不用于递归，`fun binding`就是`val binding`和`Anonymous Functions`的语法糖(更加简洁易读)
+
+2. Unnecessary Function Wrapping
+   * 要注意的是在不必要的时候应当避免使用匿名函数，比如`if x then true else false` and `fn x => f x`这些和`x`及`f`是等同的
+   * 不太明显的多余使用`fun rev xs = List.rev xs`=`val rev = fn xs => List.rev xs`可以换成`val rev - List.rev`
 
 ### Function closure
 
