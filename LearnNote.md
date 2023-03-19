@@ -874,16 +874,16 @@ fun filter (f,xs) =
       | x::xs' => if f x
                    then x::(filter (f,xs'))
                    else filter (f,xs')
-
+ (* val filter :( ′a −> bool) * ′a list−> ′a list 由于filter只是进行了筛选所以xs的类型不变*)
 fun is_even v = 
     (v mod 2 = 0)
 
 fun all_even xs = 
     filter(is_even,xs)
- 
+ (* 筛选列表中为偶数的值 *)
 fun all_even_snd xs = 
     filter((fn (_,v) => is_even v), xs)
-
+ (* 筛选pairs列表中第二个元素为偶数的值 *)
 ```
 
 ### Function closure
