@@ -811,9 +811,9 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
    ```
 
-### Anonymous Functions
+### High-order functions
 
-1. 在高阶函数中更加实用的helper fun的写法是Anonymous Functions（匿名函数），但是不能用于递归函数，因为递归需要调用函数的名字，但是Anonymous Functions没有名字
+1. Anonymous Functions：在高阶函数中更加实用的helper fun的写法是Anonymous Functions（匿名函数），但是不能用于递归函数，因为递归需要调用函数的名字，但是Anonymous Functions没有名字
 
    ```sml
    fun n_times (f,n,x) = 
@@ -852,6 +852,39 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 2. Unnecessary Function Wrapping
    * 要注意的是在不必要的时候应当避免使用匿名函数，比如`if x then true else false` and `fn x => f x`这些和`x`及`f`是等同的
    * 不太明显的多余使用`fun rev xs = List.rev xs`=`val rev = fn xs => List.rev xs`可以换成`val rev - List.rev`
+
+3. Map and Filter
+高阶函数名人堂中的二位:/
+
+```sml
+fun map (f,xs) =
+    case xs of
+      [] => []
+      | x::xs' => (f x)::(map(f,xs'))
+(* val map : ('a->'b)*'a list -> 'b list 即xs的类型必须是f的参数类型*)
+
+val x1 = map ((fn x => x+1), [4,8,12,16])
+
+val x2 = map (hd, [[1,2],[3,4],[5,6,7]])
+
+(* another very, very useful and common example *)
+fun filter (f,xs) =
+    case xs of
+      [] => []
+      | x::xs' => if f x
+                   then x::(filter (f,xs'))
+                   else filter (f,xs')
+
+fun is_even v = 
+    (v mod 2 = 0)
+
+fun all_even xs = 
+    filter(is_even,xs)
+ 
+fun all_even_snd xs = 
+    filter((fn (_,v) => is_even v), xs)
+
+```
 
 ### Function closure
 
