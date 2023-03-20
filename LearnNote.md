@@ -921,10 +921,11 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
       fun all_even e = true_of_all_constants((fn x => x mod 2 = 0),e)
      
+      val example_exp = Add (Constant 18, Negate (Constant 4))=true
      ```
 
 5. 将高阶函数应用于更加广泛的位置
-将遍历、数据处理抽象为更高阶的函数将是一个很好的想法。
+将遍历、数据处理抽象为更高阶的函数将是一个很好的想法。Dan将这类返回bool的函数成为predicates，即输入int or bool->bool
 
 ### Function closure
 
