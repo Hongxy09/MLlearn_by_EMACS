@@ -854,37 +854,77 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    * 不太明显的多余使用`fun rev xs = List.rev xs`=`val rev = fn xs => List.rev xs`可以换成`val rev - List.rev`
 
 3. Map and Filter
-高阶函数名人堂中的二位:/
+   高阶函数名人堂中的二位:/
 
-```sml
-fun map (f,xs) =
-    case xs of
-      [] => []
-      | x::xs' => (f x)::(map(f,xs'))
-(* val map : ('a->'b)*'a list -> 'b list 即xs的类型必须是f的参数类型*)
+   ```sml
+   fun map (f,xs) =
+       case xs of
+         [] => []
+         | x::xs' => (f x)::(map(f,xs'))
+   (* val map : ('a->'b)*'a list -> 'b list 即xs的类型必须是f的参数类型*)
 
-val x1 = map ((fn x => x+1), [4,8,12,16])
+   val x1 = map ((fn x => x+1), [4,8,12,16])
 
-val x2 = map (hd, [[1,2],[3,4],[5,6,7]])
+   val x2 = map (hd, [[1,2],[3,4],[5,6,7]])
 
-(* another very, very useful and common example *)
-fun filter (f,xs) =
-    case xs of
-      [] => []
-      | x::xs' => if f x
-                   then x::(filter (f,xs'))
-                   else filter (f,xs')
- (* val filter :( ′a −> bool) * ′a list−> ′a list 由于filter只是进行了筛选所以xs的类型不变*)
-fun is_even v = 
-    (v mod 2 = 0)
+   (* another very, very useful and common example *)
+   fun filter (f,xs) =
+       case xs of
+         [] => []
+         | x::xs' => if f x
+                      then x::(filter (f,xs'))
+                      else filter (f,xs')
+    (* val filter :( ′a −> bool) * ′a list−> ′a list 由于filter只是进行了筛选所以xs的类型不变*)
+   fun is_even v = 
+       (v mod 2 = 0)
 
-fun all_even xs = 
-    filter(is_even,xs)
- (* 筛选列表中为偶数的值 *)
-fun all_even_snd xs = 
-    filter((fn (_,v) => is_even v), xs)
- (* 筛选pairs列表中第二个元素为偶数的值 *)
-```
+   fun all_even xs = 
+       filter(is_even,xs)
+    (* 筛选列表中为偶数的值 *)
+   fun all_even_snd xs = 
+       filter((fn (_,v) => is_even v), xs)
+    (* 筛选pairs列表中第二个元素为偶数的值 *)
+   ```
+
+4. 同时采用多个函数作为输入的高阶函数
+   * 输入函数，返回函数,这里REPL会输出double_or_triple的类型为`(int -> bool) -> int -> int`=`(int -> bool) -> (int -> int)`，这是因为REPL会省略括号。即`fun:t1->t2->t3->t4`的意思就是这将是一个取T1的函数fun，并返回另一个取T2的函数fun2，fun本身返回另一种取T3的函数fun3，fun3输入T3返回T4。
+
+     ```sml
+     (* Programming Languages, Dan Grossman *)
+      (* Section 3: Generalizing Prior Topics *)
+
+      (* Returning a function *)
+      fun double_or_triple f =
+          if f 7
+          then fn x => 2*x
+          else fn x => 3*x
+      (* val double_or_triple = fn : (int -> bool) -> int -> int *)
+
+      val double = double_or_triple (fn x => x-3 = 4)
+      (* val double = fn : int -> int *)
+
+      val nine = (double_or_triple (fn x => x = 42)) 3
+
+      (* Higher-order functions over our own datatype bindings *)
+      datatype exp = Constant of int 
+            | Negate of exp 
+            | Add of exp * exp
+            | Multiply of exp * exp
+
+      fun true_of_all_constants(f,e) =
+          case e of
+            Constant i => f i
+            | Negate e1 => true_of_all_constants(f,e1)
+            | Add(e1,e2) => true_of_all_constants(f,e1) andalso true_of_all_constants(f,e2)
+            | Multiply(e1,e2) => true_of_all_constants(f,e1) andalso true_of_all_constants(f,e2)
+      (* 不同于filter是返回f为真的列表内的值，这个函数是返回一个bool *)
+
+      fun all_even e = true_of_all_constants((fn x => x mod 2 = 0),e)
+     
+     ```
+
+5. 将高阶函数应用于更加广泛的位置
+将遍历、数据处理抽象为更高阶的函数将是一个很好的想法。
 
 ### Function closure
 
