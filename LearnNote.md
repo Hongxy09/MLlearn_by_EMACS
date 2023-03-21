@@ -925,7 +925,17 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
      ```
 
 5. 将高阶函数应用于更加广泛的位置
-将遍历、数据处理抽象为更高阶的函数将是一个很好的想法。Dan将这类返回bool的函数成为predicates，即输入int or bool->bool
+将遍历、数据处理抽象为更高阶的函数将是一个很好的想法。Dan将这类返回bool的函数成为predicates，即输入int/bool->bool
+
+### Lexical Scope
+
+1. 非常重要的概念-函数体可以使用的不仅仅是它的参数和它定义的任何局部变量。它可以使用环境中已经存在的任何东西，我们使用的是定义函数的环境，而不是调用函数的环境。即函数可以使用再它定义时刻的环境中的变量。注意即使该变量再在函数定义后被覆盖，函数使用的仍是北覆盖，即函数定义时环境中该变量的值。
+
+2. function value实际上有两个部分，也是一个包含两个部分的pairs或者closure
+   * code
+   * environment=它具有定义函数时的当前环境。这也是为什么函数可以使用old env中的值。
+
+### Lexical Scope and Higher-Order Functions
 
 ### Function closure
 
