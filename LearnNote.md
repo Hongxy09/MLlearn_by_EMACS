@@ -930,14 +930,42 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 ### Lexical Scope
 
 1. 非常重要的概念-函数体可以使用的不仅仅是它的参数和它定义的任何局部变量。它可以使用环境中已经存在的任何东西，我们使用的是定义函数的环境，而不是调用函数的环境。即函数可以使用再它定义时刻的环境中的变量。注意即使该变量再在函数定义后被覆盖，函数使用的仍是北覆盖，即函数定义时环境中该变量的值。
+   * Function closures means functions that can use things in the environment, not just arguments and local variables.在函数中可以使用非`函数参数`和`函数内部参数`的`外部参数`
 
 2. function value实际上有两个部分，也是一个包含两个部分的pairs或者closure
    * code
-   * environment=它具有定义函数时的当前环境。这也是为什么函数可以使用old env中的值。
+   * environment=它具有定义函数时的当前环境。这也是为什么函数可以使用old env中的值。即在我们创建该fun的时候，我们创造了一个当时环境的closure。
 
-### Lexical Scope and Higher-Order Functions
+3. Lexical Scope and Higher-Order Functions
+   * 函数的闭包中的变量可以在let in中被覆盖,即不论在f y后x的值是否被覆盖，在调用f y时只会认为x=1
+   * 每当the e in let ... in e end does not use the bindings in the ..., then we can just write e (assuming the bindings terminate, don't raise exceptions, and don't have side-effects).
+   * 在嵌套调用的函数中,fun h调用的x是在其之前定义的x，即x=4，此时调用h只会得到4+y,而fun f g只是相当于g 2，即z=h 2=4+2=6
 
-### Function closure
+   ```sml
+   (* first example *)
+   val x = 1
+   fun f y = 
+       let 
+           val x = y+1
+       in
+           fn z => x + y  + z
+       end
+   val x = 3
+   val g = f 4 
+   val y = 5
+   val z = g 6
 
-Function closures means functions that can use things in the environment, not just arguments and local variables.
-在函数中可以使用非`函数参数`和`函数内部参数`的`外部参数`
+   (* second example *)
+   fun f g = 
+       let 
+           val x = 3
+       in
+           g 2
+       end
+   val x = 4
+   fun h y = x + y 
+   val z = f h
+
+   ```
+
+4. Why Lexical Scope
