@@ -969,3 +969,65 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    ```
 
 4. Why Lexical Scope
+   * Lexical Scope下函数的含义并不取决于使用的变量名，即不会受到变量名字的影响而取到不同的值，同时还可以移除无用的变量，例如f3的`val x = 3 (* irrelevant *)`，但是如果在动态环境下，如果g的参数函数中调用了x则这个x可能会被用到。
+   * 函数可以根据它们在哪里定义进行类型检查，并而不是在哪里使用。闭包变得更加强大，因为我们可以使用这种词法范围的思想来让它们存储所需的任何数据。如果在动态范围，`g 4`会试图将str的x和其他变量相加，并且会找不到y和z变量。
+   * 调用函数时，我们在函数定义的地方中查找变量，不是在函数调用的地方
+
+      ```sml
+      (* f1 and f2 are always the same, no matter where the result is used *)
+
+      fun f1 y =
+          let 
+            val x = y + 1
+          in
+            fn z => x + y + z
+          end
+
+      fun f2 y =
+          let 
+            val q = y + 1
+          in
+            fn z => q + y + z
+          end
+
+      val x = 17 (* irrelevant *)
+      val a1 = (f1 7) 4
+      val a2 = (f2 7) 4
+
+      (* f3 and f4 are always the same, no matter what argument is passed in *)
+
+      fun f3 g =
+          let 
+            val x = 3 (* irrelevant *)
+          in
+            g 2
+          end
+
+      fun f4 g =
+          g 2
+
+      val x = 17 
+      val a3 = f3 (fn y => x + y)=19
+      val a4 = f3 (fn y => 17 + y)=19
+
+      (* under dynamic scope, the call "g 6" below would try to add a string
+      (from looking up x) and would have an unbound variable (looking up y),
+      even though f1 type-checked with type int -> (int -> int) *)
+
+      val x = "hi"
+      val g = f1 7
+      val z = g 4
+
+      (* Being able to pass closures that have free variables (private data)
+         makes higher-order functions /much/ more useful *)
+      fun filter (f,xs) =
+          case xs of
+            [] => []
+            | x::xs' => if f x then x::(filter(f,xs')) else filter(f,xs')
+
+      fun greaterThanX x = fn y => y > x (* int->(int->bool)即输入x为int，返回一个函数，这个函数的类型是(int->bool) *)
+
+      fun noNegatives xs = filter(greaterThanX ~1, xs) (* 在这里对filter的参数f进行定义的时候，f(即greaterThanX ~1)就会存储当前的环境，即greaterThanX x的x=-1，此时的filter的函数就是去比较输入的列表与-1的大小关系*)
+
+      fun allGreater (xs,n) = filter (fn x => x > n, xs) (* 在这里n的值被储存，在调用allGreater时可以一致获得我门传入allGreater的n*)
+      ```
