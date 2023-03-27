@@ -1031,3 +1031,5 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
       fun allGreater (xs,n) = filter (fn x => x > n, xs) (* 在这里n的值被储存，在调用allGreater时可以一致获得我门传入allGreater的n*)
       ```
+
+### Closures and Recomputation
