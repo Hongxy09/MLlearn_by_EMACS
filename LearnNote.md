@@ -1059,10 +1059,12 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    val _ = print "\nwithAllShorterThan1: "
 
    val x1 = allShorterThan1(["1","333","22","4444"],"xxx")
+   (* 会计算四次String.size s *)
 
    val _ = print "\nwithAllShorterThan2: "
 
    val x2 = allShorterThan2(["1","333","22","4444"],"xxx")
-
+   (* 计算一次String.size s *)
+   
    val _ = print "\n"
    ```
