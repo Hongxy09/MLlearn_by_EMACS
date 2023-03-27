@@ -1033,3 +1033,36 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
       ```
 
 ### Closures and Recomputation
+
+![case](image/recompute.png)
+
+1. 函数在调用之前不会运算其body，而变量绑定则是在计算绑定的时候计算一次表达式，在调用的时候不再重复计算
+   * allShorterThan1会重复计算`String.size s`
+   * allShorterThan2在定义`fn x => String.size x < i`的时候会用closure存储当前的环境内的值，即`i`，这也为fn x的后续计算中使用i打下了基础。
+
+   ```sml
+   fun filter (f,xs) =
+       case xs of
+         [] => []
+         | x::xs' => if f x then x::(filter(f,xs')) else filter(f,xs')
+   (* print "!" 是为了查看两个函数的差异 *)
+   fun allShorterThan1 (xs,s) = 
+       filter (fn x => String.size x < (print "!"; String.size s), xs)
+
+   fun allShorterThan2 (xs,s) =
+       let 
+         val i = (print "!"; String.size s)
+       in
+         filter(fn x => String.size x < i, xs)
+       end
+
+   val _ = print "\nwithAllShorterThan1: "
+
+   val x1 = allShorterThan1(["1","333","22","4444"],"xxx")
+
+   val _ = print "\nwithAllShorterThan2: "
+
+   val x2 = allShorterThan2(["1","333","22","4444"],"xxx")
+
+   val _ = print "\n"
+   ```
