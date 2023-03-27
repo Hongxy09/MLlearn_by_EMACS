@@ -854,7 +854,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    * 不太明显的多余使用`fun rev xs = List.rev xs`=`val rev = fn xs => List.rev xs`可以换成`val rev - List.rev`
 
 3. Map and Filter
-   高阶函数名人堂中的二位:/
+   高阶函数名人堂中:/
 
    ```sml
    fun map (f,xs) =
@@ -884,6 +884,8 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    fun all_even_snd xs = 
        filter((fn (_,v) => is_even v), xs)
     (* 筛选pairs列表中第二个元素为偶数的值 *)
+
+   
    ```
 
 4. 同时采用多个函数作为输入的高阶函数
@@ -1065,6 +1067,5 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
    val x2 = allShorterThan2(["1","333","22","4444"],"xxx")
    (* 计算一次String.size s *)
-   
    val _ = print "\n"
    ```
