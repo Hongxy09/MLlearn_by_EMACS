@@ -888,7 +888,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    
    ```
 
-   * FOLD函数
+   * FOLD函数=`fold(f,acc,[x1,x2,x3])=f(f(f(acc,x1),x2),x3)`,acc是我们希望计算的结果
 
    ```sml
    (* Another hall-of-fame higher-order function *)
@@ -899,7 +899,9 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
        case xs of 
          [] => acc
          | x::xs' => fold (f,f(acc,x),xs')
+   (* val fold = fn : ('a * 'b -> 'a) * 'a * 'b list -> 'a *)
 
+   
    (* examples not using private data *)
 
    fun f1 xs = fold ((fn (x,y) => x+y), 0, xs)
