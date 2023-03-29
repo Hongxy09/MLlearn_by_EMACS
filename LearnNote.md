@@ -889,6 +889,8 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    ```
 
    * FOLD函数=`fold(f,acc,[x1,x2,x3])=f(f(f(acc,x1),x2),x3)`,acc是我们希望计算的结果
+     * f3展现了clousure的力量，在做的事是counting the number of elements between low and high inclusive.
+     * f5=当传递给g时，列表中的所有元素都会产生true吗
 
    ```sml
    (* Another hall-of-fame higher-order function *)
@@ -901,7 +903,6 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
          | x::xs' => fold (f,f(acc,x),xs')
    (* val fold = fn : ('a * 'b -> 'a) * 'a * 'b list -> 'a *)
 
-   
    (* examples not using private data *)
 
    fun f1 xs = fold ((fn (x,y) => x+y), 0, xs)
