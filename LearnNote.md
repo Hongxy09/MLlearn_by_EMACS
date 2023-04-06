@@ -890,7 +890,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
    * FOLD函数=`fold(f,acc,[x1,x2,x3])=f(f(f(acc,x1),x2),x3)`,acc是我们希望计算的结果
      * f3展现了clousure的力量，在做的事是counting the number of elements between low and high inclusive.
-     * f5=当传递给g时，列表中的所有元素都会产生true吗
+     * f5=当传递给g时，列表中的所有元素都会产生true吗，是则返回true
 
    ```sml
    (* Another hall-of-fame higher-order function *)
@@ -1112,4 +1112,41 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    val x2 = allShorterThan2(["1","333","22","4444"],"xxx")
    (* 计算一次String.size s *)
    val _ = print "\n"
+   ```
+
+2. Closure Idiom: Combining Functions组合函数
+   * 如果你用两个函数调用compose，并返回一个函数。您返回的那个函数绝对是在使用闭包的语义。这样，当你调用compose时，它可以在环境中查找f和g。而f和g在我们定义这个compose函数时就已经存在了。
+   * `o`用于隔开作为输入参数的两个值（或者函数）
+   * `backup1`中f返回的类型是option，因为fx的结果会经过case of进行判定，整个函数的类型就是'b而不是option因为它的类型要和case的所有分支返回的类型一样。但是这个函数不能处理异常。
+   * `backup2`中就可以在f x运作的时候如果碰到任何异常，就选择使用g x
+
+   ```sml
+   (* ('b->'c)*('a->'b)->('a->'c) *)
+   fun compose (f,g) = fn x => f (g x)
+
+   fun sqrt_of_abs i = Math.sqrt(Real.fromInt (abs i))
+
+   fun sqrt_of_abs i = (Math.sqrt o Real.fromInt o abs) i
+   (* 上面的函数具有不必要的函数包装 *)
+
+   val sqrt_of_abs = Math.sqrt o Real.fromInt o abs
+   (* 上面的函数的阅读顺序是从右到左，即i先Real.fromInt再Math.sqrt，为便于阅读，提出新的符号!>  *)
+
+   (* infix告诉解析器！>是出现在其两个参数之间的函数 *)
+   infix !> 
+
+   (* 运算符更常见地编写|>作为下面要将的符号的指代，但这混淆了Emacs的SML模式的当前版本，导致编辑和格式不正确，所以自定义替换为!> *)
+
+   (* definition of the pipeline operator *)
+   fun x !> f = f x
+
+   fun sqrt_of_abs i = i !> abs !> Real.fromInt !> Math.sqrt
+
+   (* val backup1 = fn : ('a -> 'b option) * ('a -> 'b) -> 'a -> 'b*)
+   fun backup1 (f,g) = fn x => case f x of 
+                                 NONE => g x 
+                                 | SOME y => y
+
+   (* val backup2 = fn : ('a -> 'b) * ('a -> 'b) -> 'a -> 'b *)
+   fun backup2 (f,g) = fn x => f x handle _ => g x
    ```
