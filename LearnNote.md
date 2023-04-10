@@ -1153,6 +1153,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
 3. Closure Idiom: Currying——一种处理概念上多参数函数的新方法
    * sorted3 takes int 然后返回一个fun1，fun1的输入类型是int，输出的是一个接受int返回bool的fun2，即int->(int -> (int->bool))
+   * 用语法糖代替了之前用tuple作为多参数函数输入的方法
 
    ```sml
    (* Programming Languages, Dan Grossman *)
@@ -1174,7 +1175,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    (* syntactic sugar for calling curried functions: optional parentheses *)
    val t3 = sorted3 7 9 11 
 
-   (* syntactic sugar for defining curried functions: space between arguments *)
+   (* syntactic sugar for defining curried functions sorted3 : space between arguments *)
    fun sorted3_nicer x y z = z >= y andalso y >= x
 
    (* more calls that work: *)
