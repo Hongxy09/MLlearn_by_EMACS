@@ -1150,3 +1150,54 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    (* val backup2 = fn : ('a -> 'b) * ('a -> 'b) -> 'a -> 'b *)
    fun backup2 (f,g) = fn x => f x handle _ => g x
    ```
+
+3. Closure Idiom: Currying——一种处理概念上多参数函数的新方法
+   * sorted3 takes int 然后返回一个fun1，fun1的输入类型是int，输出的是一个接受int返回bool的fun2，即int->(int -> (int->bool))
+
+   ```sml
+   (* Programming Languages, Dan Grossman *)
+   (* Section 3: Another Closure Idiom: Currying *)
+
+   (* old way to get the effect of multiple arguments *)
+   fun sorted3_tupled (x,y,z) = z >= y andalso y >= x
+
+   val t1 = sorted3_tupled (7,9,11)
+
+   (* new way: currying *)
+   val sorted3 = fn x => fn y => fn z => z >= y andalso y >= x
+   (* val sorted3 = fn : int -> int -> int -> bool *)
+
+   (* alternately: fun sorted3 x = fn y => fn z => z >= y andalso y >= x *)
+
+   val t2 = ((sorted3 7) 9) 11
+
+   (* syntactic sugar for calling curried functions: optional parentheses *)
+   val t3 = sorted3 7 9 11 
+
+   (* syntactic sugar for defining curried functions: space between arguments *)
+   fun sorted3_nicer x y z = z >= y andalso y >= x
+
+   (* more calls that work: *)
+   val t4 = sorted3_nicer 7 9 11
+   val t5 = ((sorted3_nicer 7) 9) 11
+
+   (* calls that do not work: cannot mix tupling and currying *)
+   (*val wrong1 = ((sorted3_tupled 7) 9) 11*)
+   (*val wrong2 = sorted3_tupled 7 9 11*)
+   (*val wrong3 = sorted3 (7,9,11)*)
+   (*val wrong4 = sorted3_nicer (7,9,11)*)
+
+   (* a more useful example *)
+   fun fold f acc xs = (* means fun fold f = fn acc => fn xs => *)
+     case xs of
+       []     => acc
+     | x::xs' => fold f (f(acc,x)) xs'
+   (* Note: foldl in the ML standard library is very similar, but 
+      the two arguments for the function f are in the opposite order. 
+      The order is, naturally, a matter of taste.
+   *)
+
+   (* a call to curried fold: will improve this call next *)
+   fun sum xs = fold (fn (x,y) => x+y) 0 xs
+
+   ```
