@@ -1202,3 +1202,68 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    fun sum xs = fold (fn (x,y) => x+y) 0 xs
 
    ```
+
+4. Partial Application of multiple arguments
+   * 如果函数的参数是一个/两个而不是三个的时候，可以部分应用Currying
+   * `is_nonnegative_inferior`和`sum_inferior`也是可以的，但是可以练习更短的版本`is_nonnegative`和`sum`，即fun name x和val name定义的函数是一样的，而val可以更加简洁。这两个定义方式可以等同的依据是之前我们学到过的`fun f x = g x`等于`val f = g`
+   * iterators是一个更有用的例子。是高于列表和类似数据结构的高阶函数，它们通常是以Currying形式编写的。比如`exists`就是对列表应用后只要有ture就返回true不然返回false。
+   * 多态函数会导致“warning type vars not generalized”，可以先用以下的方法解决。
+
+   ```sml
+    fun sorted3 x y z = z >= y andalso y >= x
+
+    fun fold f acc xs = (* means fun fold f = fn acc => fn xs => *)
+      case xs of
+       [] => acc
+       | x::xs' => fold f (f(acc,x)) xs'
+
+    (* 如果一个curried函数被应用于“太少”的参数，它只会返回一个闭包，这通常很有用) *)
+
+    val is_nonnegative = sorted3 0 0
+
+    val sum = fold (fn (x,y) => x+y) 0
+
+    fun is_nonnegative_inferior x = sorted3 0 0 x
+
+    fun sum_inferior xs = fold (fn (x,y) => x+y) 0 xs
+
+    (* another example *)
+
+    fun range i j = if i > j then [] else i :: range (i+1) j
+   (* range 3 6 -> [3,4,5,6]*)
+
+    val countup  = range 1
+   (* countup6 -> [1,2,3,4,5,6]*)
+
+    fun countup_inferior x = range 1 x
+
+    (* 常见的风格是先用函数参数来获取高阶函数，以实现方便Partial Application *)
+
+    fun exists predicate xs =
+        case xs of
+            [] => false
+            | x::xs' => predicate x orelse exists predicate xs'
+
+    val no = exists (fn x => x=7) [4,11,23]->false
+
+    val hasZero = exists (fn x => x=0)
+
+    val incrementAll = List.map (fn x => x + 1)
+
+    (* library functions foldl, List.filter, etc. also generally curried: *)
+
+    val removeZeros = List.filter (fn x => x <> 0)
+
+    (* value restriction *)
+    
+    (* val pairWithOne = List.map (fn x => (x,1)) *)
+
+    (* workarounds:放弃部分应用，采用完整的函数定义 *)
+    fun pairWithOne xs = List.map (fn x => (x,1)) xs
+
+    (* workarounds:定义函数，放弃多态 *)
+    val pairWithOne : string list -> (string * int) list = List.map (fn x => (x,1))
+
+    (* this different function works fine because result is not polymorphic *)
+    val incrementAndPairWithOne = List.map (fn x => (x+1,1))
+    ```
