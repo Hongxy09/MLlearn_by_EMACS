@@ -1203,7 +1203,9 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
    ```
 
-4. Partial Application of multiple arguments
+### Partial Application of multiple arguments——Currying
+
+1. Currying
    * 如果函数的参数是一个/两个而不是三个的时候，可以部分应用Currying
    * `is_nonnegative_inferior`和`sum_inferior`也是可以的，但是可以练习更短的版本`is_nonnegative`和`sum`，即fun name x和val name定义的函数是一样的，而val可以更加简洁。这两个定义方式可以等同的依据是之前我们学到过的`fun f x = g x`等于`val f = g`
    * iterators是一个更有用的例子。是高于列表和类似数据结构的高阶函数，它们通常是以Currying形式编写的。比如`exists`就是对列表应用后只要有ture就返回true不然返回false。
@@ -1267,3 +1269,5 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
     (* this different function works fine because result is not polymorphic *)
     val incrementAndPairWithOne = List.map (fn x => (x+1,1))
     ```
+
+2. Currying Wrapup
