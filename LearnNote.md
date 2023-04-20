@@ -1235,7 +1235,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    (* range 3 6 -> [3,4,5,6]*)
 
     val countup  = range 1
-   (* countup6 -> [1,2,3,4,5,6]*)
+   (* countup 6 -> [1,2,3,4,5,6]*)
 
     fun countup_inferior x = range 1 x
 
@@ -1271,3 +1271,26 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
     ```
 
 2. Currying Wrapup
+
+   ```sml
+   fun curry f x y = f (x,y)
+   (* val curry = fn : ('a * 'b -> 'c) -> 'a -> 'b -> 'c *)
+
+   fun uncurry f (x,y) = f x y
+   (* val uncurry = fn : ('a -> 'b -> 'c) -> 'a * 'b -> 'c *)
+
+   fun other_curry1 f = fn x => fn y => f y x
+
+   fun other_curry2 f x y = f y x
+   (* val other_curry1 = fn : ('a -> 'b -> 'c) -> 'b -> 'a -> 'c *)
+
+   (* example *)
+
+   (* tupled but we wish it were curried *)
+   fun range (i,j) = if i > j then [] else i :: range(i+1, j)
+
+   (* no problem *)
+   val countup = curry range 1
+
+   val xs = countup 7
+   ```
