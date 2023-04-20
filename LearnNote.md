@@ -1294,3 +1294,5 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
    val xs = countup 7
    ```
+
+### Unnecessary Function Wrapping
