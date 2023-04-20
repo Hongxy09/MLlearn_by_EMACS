@@ -1296,3 +1296,22 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    ```
 
 ### Mutable References
+
+关于结构的可变性：并非所有的结构都必须是不可变的，虽然可变的结构可能会带来某些问题，但是可变的数据有时也是必要的。在sml中使用ref来代表可变的结构。
+
+1. 数据类型`t ref`的t代表ref的变量的类型
+2. 新建ref类型的数据`ref e`；更新ref类型数据`e1 := e2`,e1的值会变成e2(e1:int ref,e2:int)；只读ref的值`! e`
+
+```sml
+val x = ref 42 
+
+val y = ref 42 
+
+val z = x
+
+val _ = x := 43
+
+val w = (!y) + (!z) (* 85 *)
+
+(* x + 1 does not type-check *)
+```
