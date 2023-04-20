@@ -1301,6 +1301,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
 1. 数据类型`t ref`的t代表ref的变量的类型
 2. 新建ref类型的数据`ref e`；更新ref类型数据`e1 := e2`,e1的值会变成e2(e1:int ref,e2:int)；只读ref的值`! e`
+3. 注意变量x,y,z总是保持与创建时相同的引用
 
 ```sml
 val x = ref 42 
