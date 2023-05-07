@@ -1203,6 +1203,37 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 
 4. Closure Idiom: Callbacks
 
+   ```sml
+   val cbs : (int -> unit) list ref = ref []
+
+   fun onEvent i =
+      let fun loop fs =
+           case fs of
+             [] => ()
+           | f::fs' => (f i; loop fs')
+       in loop (!cbs) end
+
+   (*clients call only this function (public interface to the library)*)
+   fun onKeyEvent f = cbs := f::(!cbs)
+
+   (*some clients where closures are essential
+      notice different environments use bindings of different types
+    *)
+   val timesPressed = ref 0
+   val *= onKeyEvent (fn* => timesPressed := (!timesPressed) + 1)
+
+   fun printIfPressed i =
+       onKeyEvent (fn j => if i=j
+                           then print ("you pressed " ^ Int.toString i ^ "\n")
+                           else ())
+
+   val _= printIfPressed 4
+   val_ = printIfPressed 11
+   val _= printIfPressed 23
+   val_ = printIfPressed 4
+
+   ```
+
 ### Partial Application of multiple arguments——Currying
 
 1. Currying
