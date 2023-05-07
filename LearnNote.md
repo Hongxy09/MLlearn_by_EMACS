@@ -1201,7 +1201,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    (* a call to curried fold: will improve this call next *)
    fun sum xs = fold (fn (x,y) => x+y) 0 xs
 
-   ```
+4. Closure Idiom: Callbacks
 
 ### Partial Application of multiple arguments——Currying
 
