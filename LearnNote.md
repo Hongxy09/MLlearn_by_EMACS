@@ -1202,6 +1202,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
    fun sum xs = fold (fn (x,y) => x+y) 0 xs
 
 4. Closure Idiom: Callbacks
+   * 有人编写了一个库，从客户端接收函数，这些函数应该在以后发生某种事件时调用。
 
    ```sml
    val cbs : (int -> unit) list ref = ref []
