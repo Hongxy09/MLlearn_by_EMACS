@@ -87,15 +87,15 @@
 2. pairs:包含两个部分
 
 * bulid pairs
-  * syntax:(e1,e2)两个逗号分隔的表达式
-  * typing checking:e1->ta,e2->tb,(e1,e2)->(ta*tb)星号是分隔符
-  * evaluation:e1->value1,e2->v2,(v1,v2)->value
+  * syntax:`(e1,e2)`两个逗号分隔的表达式
+  * typing checking:`e1->ta,e2->tb,(e1,e2)->(ta*tb)`星号是分隔符
+  * evaluation:`e1->value1,e2->v2,(v1,v2)->value`
 * access the pieces of pairs:
   * syntax: #1e,#2e代表访问求出的e的第一个第二个部分
-  * typing checking:(e1,e2)->(type a*type b)则e1->ta,e2->tb,
+  * typing checking:`(e1,e2)->(type a*type b)`则e1->ta,e2->tb,
   * evaluation:返回syntax对应的值
 * pairs=two tuples,创建n元tuples=(e1,e2,e3...en),tuples可以嵌套进任何数据结构中
-  * `val x1=(7,(true,9)`->int*(bool*int);`val x2=#1 (#2 x1)`val x2=#1 (#2 x1)->bool
+  * `val x1=(7,(true,9)`->int*(bool*int);`val x2=#1 (#2 x1)val x2=#1 (#2 x1)`->bool
 
 ### List
 
@@ -104,13 +104,13 @@
 3. list的构建方法
 
    * 定义法:`val x=[1,2,3]->int list`
-   * CONS方法:e1::e2(e1:value,e2:list) 即 5::x->[5,1,2,3]->int list
+   * CONS方法:`e1::e2(e1:value,e2:list)` 即 5::x->[5,1,2,3]->int list
      * [5]:: [1,2]不行,因为int list不能容纳int list
      * [5]:: [[6],[7]]->[[5],[6],[7]]->int list list
      * 类型检查:e1::e2(e1->t,e2->t list)
 4. list的调用方法
 
-   * null e->e==[](null这是一个函数,它将列表作为参数,如果列表为空则返回true,否则返回false)
+   * `null e`->e==[](null这是一个函数,它将列表作为参数,如果列表为空则返回true,否则返回false)
    * hd e和tl e返回列表的第一个元素和除第一个元素以外的所有元素
    * val x=[9];tl x->[]:`a list(一个元素的list的tl会返回空list,同时如果我对空列表使用hd,虽然可以通过类型检查但是会报错)
 5. 列表的类型
