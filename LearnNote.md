@@ -372,7 +372,7 @@ case表达式可以有效避免list为空或者option为空产生的错误，应
 
 ### Type Synonyms
 
-`type anme = t`Type只是为已经存在的相同类型创建另一个名称，一般不用type去定义数据类型，而是用type对数据类型或者已有的数据类型的组合进行重命名，然后在任何用到这个类型的地方使用type的名字，type的名字和type指向的类型t是可以互换的
+`type name = t`Type只是为已经存在的相同类型创建另一个名称，一般不用type去定义数据类型，而是用type对数据类型或者已有的数据类型的组合进行重命名，然后在任何用到这个类型的地方使用type的名字，type的名字和type指向的类型t是可以互换的
 
 ```sml
 datatype suit = Club | Diamond | Heart | Spade
