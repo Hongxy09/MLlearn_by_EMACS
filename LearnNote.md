@@ -848,7 +848,7 @@ fun triple_n_times (n,x) = n_times(triple,n,x)
 2. Unnecessary Function Wrapping
 
    * 要注意的是在不必要的时候应当避免使用匿名函数，比如 `if x then true else false` and `fn x => f x`这些和 `x`及 `f`是等同的
-   * 不太明显的多余使用 `fun rev xs = List.rev xs`=`val rev = fn xs => List.rev xs`可以换成 `val rev - List.rev`
+   * 不太明显的多余使用 `fun rev xs = List.rev xs`=`val rev = fn xs => List.rev xs`可以换成 `val rev -> List.rev`，`List.rev`是标准库中自带的列表逆转函数
 3. Map and Filter
 
    * 高阶函数名人堂中:/
