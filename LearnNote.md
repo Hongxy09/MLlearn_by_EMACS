@@ -767,7 +767,7 @@ fun n_times (f,n,x) =
     if n=0
     then x
     else f(n_times(f,n-1,x))
-(* 最后的else也可以是n_times(f,n-1,x)，这取决于是否对递归的结果进一步运算，n_times这个函数真是方便好用！ 注意的是这里n_times(f,n-1,x)传回的数据类型要和f符合，因为n_times(f,n-1,x)的结果会传回f函数中*)
+(* 最后的else也可以是n_times(f,n-1,x)，这取决于是否对递归的结果进一步运算，f是为了对返回的结果做一次运算。注意的是这里n_times(f,n-1,x)传回的数据类型要和f符合，因为n_times(f,n-1,x)的结果会传回f函数中*)
 
 fun increment x = x+1
 
