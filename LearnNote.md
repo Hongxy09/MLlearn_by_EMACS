@@ -749,12 +749,12 @@ fun increment_n_times_lame (n,x) = (* silly example, this is addition (n+x) *)
    then x
    else 1 + increment_n_times_lame(n-1,x)
 
-fun double_n_times_lame (n,x) = 
+fun double_n_times_lame (n,x) = (* 2^n *)
    if n=0
    then x
    else 2 * double_n_times_lame(n-1,x)
 
-fun nth_tail_lame (n,xs) =
+fun nth_tail_lame (n,xs) = (* n th of xs *)
    if n=0
    then xs
    else tl (nth_tail_lame(n-1,xs))
