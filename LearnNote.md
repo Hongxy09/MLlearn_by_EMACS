@@ -741,6 +741,8 @@ val eighteen = (#1 a_tuple) 9
 
 我们不需要有n个非常相似的函数，我们可以有一个具有所有公共部分的函数，然后传入n个不同的较短函数
 
+以下是三个非高阶的普通函数
+
 ```sml
 fun increment_n_times_lame (n,x) = (* silly example, this is addition (n+x) *)
    if n=0
